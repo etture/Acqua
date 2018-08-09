@@ -24,8 +24,11 @@ const connection = mysql.createConnection({
 });
 
 connection.connect((err) =>{
-    if(err) console.log("error:", err);
-    console.log('Remote DB connected!');
+    if(err){
+        console.log("error:", err);
+    } else{
+        console.log('Remote DB connected!');
+    }
 });
 
 app.get('/', (req, res) => {
