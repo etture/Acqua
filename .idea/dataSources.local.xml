@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MariaDB" uuid="c09ede46-a203-43cd-b2dc-8b9c9e1cef1e">
+      <database-info product="MySQL" version="10.1.33-MariaDB" jdbc-version="4.2" driver-name="MariaDB connector/J" driver-version="2.2.6">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:information_schema,social_calendar_api</introspection-schemas>
+    </data-source>
+  </component>
+</project>
