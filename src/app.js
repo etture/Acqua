@@ -17,10 +17,15 @@ app.use((req, res, next) => {
 });
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: "'password'",
-    database: 'social_calendar_api'
+    host: 'shareddb-i.hosting.stackcp.net',
+    user: 'jinoolee',
+    password: 'jinoolee1234',
+    database: 'SocialCalendar-3337d468'
+});
+
+connection.connect((err) =>{
+    if(err) console.log("error:", err);
+    console.log('Remote DB connected!');
 });
 
 app.get('/', (req, res) => {
@@ -38,13 +43,16 @@ app.get('/entries/:userId/:personId', (req, res) => {
     connection.query(query, (err, results) => {
         if (err) {
             res.send(err);
-        }
-        const resultJson = JSON.parse(JSON.stringify(results));
-        // const apiResult = {
-        //     data: resultJson
-        // };
+            console.log('error:', err);
+        } else {
+            const resultJson = JSON.parse(JSON.stringify(results));
+            // const apiResult = {
+            //     data: resultJson
+            // };
 
-        res.json(resultJson);
+            res.json(resultJson);
+        }
+
     });
 
 });
