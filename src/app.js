@@ -1,7 +1,7 @@
-import express from 'express';
-import morgan from 'morgan';
-import mysql from 'mysql';
-import bodyParser from 'body-parser';
+const express = require('express');
+const morgan  = require('morgan');
+const mysql = require('mysql');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3000;
 
