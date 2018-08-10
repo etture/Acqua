@@ -16,12 +16,14 @@ app.use((req, res, next) => {
     next();
 });
 
-const connection = mysql.createConnection({
+const mysql_conn = process.env.JAWSDB_URL || {
     host: 'shareddb-i.hosting.stackcp.net',
     user: 'jinoolee',
     password: 'jinoolee1234',
     database: 'SocialCalendar-3337d468'
-});
+};
+
+const connection = mysql.createConnection(mysql_conn);
 
 connection.connect((err) =>{
     if(err){
@@ -33,6 +35,10 @@ connection.connect((err) =>{
 
 app.get('/', (req, res) => {
     res.send('api template!');
+});
+
+app.get('/example', (req, res) => {
+    res.send('example!');
 });
 
 app.get('/entries/:userId/:personId', (req, res) => {
