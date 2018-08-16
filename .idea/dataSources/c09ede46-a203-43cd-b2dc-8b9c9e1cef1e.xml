@@ -1244,7 +1244,16 @@
     <table id="335" parent="17" name="entries">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="336" parent="17" name="users">
+    <table id="336" parent="17" name="friends">
+      <Engine>InnoDB</Engine>
+    </table>
+    <table id="337" parent="17" name="profiles">
+      <Engine>InnoDB</Engine>
+    </table>
+    <table id="338" parent="17" name="users">
+      <Engine>InnoDB</Engine>
+    </table>
+    <table id="339" parent="17" name="works">
       <Engine>InnoDB</Engine>
     </table>
   </database-model>

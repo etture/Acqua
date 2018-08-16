@@ -6,14 +6,15 @@
     "node": "8.11.1"
   },
   "scripts": {
+    "dev": "nodemon ./src/index.js --exec babel-node -e js",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./src -s",
     "build": "npm run clean && npm run build-babel",
-    "start": "npm run build && node ./build/app.js"
+    "start": "npm run build && node ./build/index.js"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
     "babel-preset-env": "^1.7.0",
+    "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "debug": "~2.6.9",
