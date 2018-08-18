@@ -13,7 +13,7 @@ router.get('/:userID/:personID', requireAuth, (req, res) => {
     const {userID, personID} = req.params;
 
     //Check that userID matches the authorized user's ID
-    if(userID != req.user.id){
+    if(userID !== req.user.id){
         return res.status(403).send({error: 'User ID mismatch, access unauthorized'});
     }
 

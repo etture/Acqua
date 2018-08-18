@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AcquaAPI.iml" filepath="$PROJECT_DIR$/AcquaAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/acqua-api.iml" filepath="$PROJECT_DIR$/acqua-api.iml" />
     </modules>
   </component>
 </project>
