@@ -27,7 +27,6 @@ router.get('/:userID/:personID', requireAuth, (req, res) => {
             console.log('error:', err);
         } else {
             const resultJson = JSON.parse(JSON.stringify(results));
-
             res.json(resultJson);
         }
     });
@@ -38,7 +37,7 @@ router.post('/:userID/:personID', requireAuth, (req, res) => {
     const comment = req.body.comment;
 
     //Check that userID matches the authorized user's ID
-    if(userID != req.user.id){
+    if(userID !== req.user.id){
         return res.status(403).send({error: 'User ID mismatch, access unauthorized'});
     }
 
