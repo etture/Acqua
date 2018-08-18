@@ -12,7 +12,8 @@ function tokenForUser(user) {
 exports.signup = function (req, res, next) {
     const email = req.body.email;
     let password = req.body.password;
-    const name = req.body.name;
+    const first_name = req.body.first_name;
+    const last_name = req.body.last_name;
     const phone_number = req.body.phone_number;
 
     //Return an error if either email or password is not entered
@@ -45,9 +46,9 @@ exports.signup = function (req, res, next) {
 
                 password = hash;
 
-                let query_signup = "INSERT INTO ?? (??, ??, ??, ??) VALUES (?, ?, ?, ?)";
-                const inserts = ['users', 'email', 'password', 'name', 'phone_number',
-                    email, password, name, phone_number];
+                let query_signup = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?)";
+                const inserts = ['users', 'email', 'password', 'first_name', 'last_name', 'phone_number',
+                    email, password, first_name, last_name, phone_number];
                 query_signup = mysql.format(query_signup, inserts);
 
                 //Insert user into users table
@@ -63,7 +64,7 @@ exports.signup = function (req, res, next) {
                         res.send({
                             success: 'Successfully signed up',
                             user: {
-                                email, password, name, phone_number
+                                email, password, first_name, last_name, phone_number
                             },
                             token: tokenForUser(user)
                         });
