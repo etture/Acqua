@@ -14,7 +14,7 @@ app.use(cors());
 app.use('/api', APIRouter);
 
 app.get('/', (req, res) => {
-    res.send('api template!');
+    res.send('api template for acqua!');
 });
 
 const PORT = process.env.PORT || 3009;
