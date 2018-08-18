@@ -18,6 +18,9 @@ router.use('/users', Users);
 router.use('/profiles', Profiles);
 
 router.post('/signup', Authentication.signup);
+router.get('/signup', (req, res) => {
+    res.send('signup page');
+});
 router.post('/signin', requireSignin, Authentication.signin);
 
 module.exports = router;
