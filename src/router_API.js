@@ -8,6 +8,7 @@ const router = express.Router();
 const Entries = require('./routes/entries');
 const Users = require('./routes/users');
 const Profiles = require('./routes/profiles');
+const Auth = require('./routes/auth');
 
 //Use requireAuth for any request that is executed while signed in
 const requireAuth = passport.authenticate('jwt', {session: false});
@@ -16,11 +17,15 @@ const requireSignin = passport.authenticate('local', {session: false});
 router.use('/entries', Entries);
 router.use('/users', Users);
 router.use('/profiles', Profiles);
+router.use('/auth', Auth);
 
-router.post('/signup', Authentication.signup);
-router.get('/signup', (req, res) => {
-    res.send('signup page');
+//TODO: check whether the token is valid
+router.post('/token', requireAuth, (req, res) => {
+    if(!req.user){
+        res.status(401).send({error: 'token expired', valid: "false"});
+    }
+
+    res.send({valid: "true"});
 });
-router.post('/signin', requireSignin, Authentication.signin);
 
 module.exports = router;

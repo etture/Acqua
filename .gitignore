@@ -8,3 +8,5 @@ npm-debug.log
 # IntelliJ
 *.iml
 /.idea
+
+schema.sql
