@@ -6,7 +6,7 @@ const Authentication = require('./controllers/authentication');
 const router = express.Router();
 
 const Entries = require('./routes/entries');
-const Users = require('./routes/users');
+const Friends = require('./routes/friends');
 const Profiles = require('./routes/profiles');
 const Auth = require('./routes/auth');
 
@@ -15,7 +15,7 @@ const requireAuth = passport.authenticate('jwt', {session: false});
 const requireSignin = passport.authenticate('local', {session: false});
 
 router.use('/entries', Entries);
-router.use('/users', Users);
+router.use('/friends', Friends);
 router.use('/profiles', Profiles);
 router.use('/auth', Auth);
 

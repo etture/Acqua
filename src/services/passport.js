@@ -28,8 +28,7 @@ const jwtCheck = new JwtStrategy(jwtOptions, function (payload, done) {
         if((payload.iat / 1000 + 60 * 60 * 24 * 30 * 6) >= Date.now()){
             console.log("jwt expired");
             return done(null, false);
-        };
-
+        }
         console.log("jwt not expired");
 
         if (results) {
