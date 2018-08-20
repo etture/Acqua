@@ -26,14 +26,14 @@ router.get('/get/:friend_id', requireAuth, (req, res) => {
     });
 });
 
-//Post a comment on friend
+//Post a memo about a friend
 router.post('/post/:friend_id', requireAuth, (req, res) => {
     const {friend_id} = req.params;
     const user_id = req.user.id;
-    const comment = req.body.comment;
+    const memo = req.body.memo;
 
-    const query_insert_entry = "INSERT INTO entries (user_id, friend_id, comment) VALUES " +
-        `('${user_id}', '${friend_id}', '${comment}')`;
+    const query_insert_entry = "INSERT INTO entries (user_id, friend_id, memo) VALUES " +
+        `('${user_id}', '${friend_id}', '${memo}')`;
 
     db.query(query_insert_entry, (err, result) => {
         if (err) {
