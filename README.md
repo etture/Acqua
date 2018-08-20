@@ -1,4 +1,4 @@
-<img src="./public/images/logo_white.png" width="48">
+<img src="./public/images/logo_white.png" width="50%">
 
 # acqua API
 
