@@ -1,4 +1,4 @@
-![acqua logo](./public/images/logo_white.png)
+<img src="./public/images/logo_white.png" width="48">
 
 # acqua API
 
