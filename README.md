@@ -21,7 +21,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - [Friends List](#friends-list)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
-    - [ ] [/api/friends/nickname](#apifriendsnickname) `PUT`
+    - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [User Profile](#user-profile)
     - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
     - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
@@ -209,12 +209,30 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - HTTP method: `PUT`
 - Edit `friend`'s nickname to be displayed to `user`
 - Request
+    - Sample Dummy Request Info
+            - `friend_id`: 7
+            - `nickname`: "Wolverine"
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"    
+        }
+        ```
+    - Parameters
+        ```js
+        {
+        "friend_id": "friend_id",
+        "nickname": "new nickname"
+        }
+        ```
+- Response
     ```js
     {
-    "authorization": "JWT token"    
+    "isSuccess": true,
+    "friend_id": 7,
+    "nickname": "Wolverine"     
     }
     ```
-- Response
 
 ## User Profile
 ### /api/profiles/basic

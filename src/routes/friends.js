@@ -44,7 +44,18 @@ router.post('/add', requireAuth, (req, res) => {
 
 //Edit friend's nickname to be displayed to user
 router.put('/nickname', requireAuth, (req, res) => {
+    const {nickname, friend_id} = req.body;
+    const user_id = req.user.id;
 
+    const query_edit_nickname = `UPDATE friends SET nickname = '${nickname}' WHERE user_id = '${user_id}' AND friend_id = '${friend_id}'`;
+    db.query(query_edit_nickname, (err, result) => {
+        if(err) return res.send(err);
+        res.send({
+            isSuccess: true,
+            friend_id,
+            nickname
+        });
+    });
 });
 
 module.exports = router;
