@@ -153,12 +153,14 @@
     ```js
     [
       {  
+      "friend_id": 7,
       "last_name": "Park",
       "first_name": "Mark",
       "email": "parkmark@gmail.com",
       "phone_number": "01099291028"
       },
       {
+      "friend_id": 9,  
       "last_name": "Jong",
       "first_name": "Soon",
       "email": "jongsoon@gmail.com",
@@ -170,6 +172,27 @@
 
 ### /api/friends/add
 - HTTP method: `POST'
+- `user`에게 `friend` 추가
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+    - Parameters
+        ```js
+        {
+        "friend_id": "friend_id"
+        }
+        ```
+- Response
+    ```js
+    {
+    "isSuccess": true,
+    "friend_id": 8    
+    }
+    ```
 
 ## 사용자 프로필
 ### /api/profiles/basic

@@ -154,12 +154,14 @@ Server written in Node.js
     ```js
     [
       {  
+      "friend_id": 7,
       "last_name": "Park",
       "first_name": "Mark",
       "email": "parkmark@gmail.com",
       "phone_number": "01099291028"
       },
       {
+      "friend_id": 9,
       "last_name": "Jong",
       "first_name": "Soon",
       "email": "jongsoon@gmail.com",
@@ -171,9 +173,27 @@ Server written in Node.js
 
 ### /api/friends/add
 - HTTP method: `POST'
-- Description
+- Add a `friend` for `user`
 - Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+    - Parameters
+        ```js
+        {
+        "friend_id": "friend_id"
+        }
+        ```
 - Response
+    ```js
+    {
+    "isSuccess": true,
+    "friend_id": 8    
+    }
+    ```
 
 ## User Profile
 ### /api/profiles/basic
