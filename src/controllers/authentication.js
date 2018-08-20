@@ -1,12 +1,11 @@
 const jwt = require('jwt-simple');
 const config = require('../services/config');
 const bcrypt = require('bcrypt-nodejs');
-const mysql = require('mysql');
 const db = require('../db');
 
-function tokenForUser(user) {
+function tokenForUser(user_id) {
     const timestamp = new Date().getTime();
-    return jwt.encode({sub: user.id, iat: timestamp}, config.secret);
+    return jwt.encode({sub: user_id, iat: timestamp}, config.secret);
 }
 
 exports.signup = function (req, res, next) {
@@ -21,9 +20,7 @@ exports.signup = function (req, res, next) {
         return res.status(422).send({error: 'Must provide both email and password'});
     }
 
-    let query_select_user = "SELECT * FROM ?? WHERE ?? = ? LIMIT 1";
-    const inserts = ['users', 'email', email];
-    query_select_user = mysql.format(query_select_user, inserts);
+    const query_select_user = `SELECT * FROM users WHERE email = '${email}' LIMIT 1`;
 
     //Check to see if an account already exists with that email
     db.query(query_select_user, (err, results) => {
@@ -46,27 +43,57 @@ exports.signup = function (req, res, next) {
 
                 password = hash;
 
-                let query_signup = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?)";
-                const inserts = ['users', 'email', 'password', 'first_name', 'last_name', 'phone_number',
-                    email, password, first_name, last_name, phone_number];
-                query_signup = mysql.format(query_signup, inserts);
-
                 //Insert user into users table
-                db.query(query_signup, (err, result) => {
-                    if (err) return next(err);
+                db.beginTransaction((err) => {
+                    if(err) throw err;
 
-                    //Get the user row to obtain ID to be used to create JWT
-                    db.query(query_select_user, (err, results) => {
-                        if (err) return next(err);
+                    const query_signup = "INSERT INTO users (email, password, first_name, last_name, phone_number) VALUES " +
+                        `('${email}', '${password}', '${first_name}', '${last_name}', '${phone_number}')`;
 
-                        const user = JSON.parse(JSON.stringify(results))[0];
+                    db.query(query_signup, (err, result) => {
+                        if (err) {
+                            db.rollback(() => {
+                                return next(err);
+                            });
+                        }
 
-                        res.send({
-                            success: 'Successfully signed up',
-                            user: {
-                                email, password, first_name, last_name, phone_number
-                            },
-                            token: tokenForUser(user)
+                        //Get the auto-incrementing user_id from the last INSERT
+                        const last_id = result.insertId;
+                        console.log('last ID:', last_id);
+
+                        //Once the user has been inserted into `users`, create row for `profiles` and `works`
+                        db.query('INSERT INTO profiles SET user_id = ?', last_id, (err, result) => {
+                            if (err) {
+                                db.rollback(() => {
+                                    return next(err);
+                                });
+                            }
+
+                            db.query('INSERT INTO works SET user_id = ?', last_id, (err, result) => {
+                                if (err) {
+                                    db.rollback(() => {
+                                        return next(err);
+                                    });
+                                }
+
+                                db.commit((err) => {
+                                    if (err) {
+                                        db.rollback(() => {
+                                            return next(err);
+                                        });
+                                    }
+                                    console.log('insert user all complete');
+
+                                    //Create and send JWT using the user_id
+                                    res.send({
+                                        isSuccess: 'true',
+                                        user: {
+                                            email, password, first_name, last_name, phone_number
+                                        },
+                                        token: tokenForUser(last_id)
+                                    });
+                                });
+                            });
                         });
                     });
                 });
@@ -78,6 +105,6 @@ exports.signup = function (req, res, next) {
 exports.signin = function(req, res, next){
     res.send({
         success: 'Successfully signed in',
-        token: tokenForUser(req.user)
+        token: tokenForUser(req.user.id)
     });
 };

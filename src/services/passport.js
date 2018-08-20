@@ -4,7 +4,6 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt-nodejs');
-const mysql = require('mysql');
 const db = require('../db');
 
 const jwtOptions = {
@@ -13,9 +12,7 @@ const jwtOptions = {
 };
 
 const jwtCheck = new JwtStrategy(jwtOptions, function (payload, done) {
-    let query_findById = "SELECT * FROM ?? WHERE ?? = ?";
-    const inserts = ['users', 'id', payload.sub];
-    query_findById = mysql.format(query_findById, inserts);
+    const query_findById = `SELECT * FROM users WHERE id = '${payload.sub}'`;
 
     console.log("payload.sub:", payload.sub);
 
@@ -48,9 +45,7 @@ const localOptions = {
 };
 
 const localSignin = new LocalStrategy(localOptions, function (email, password, done) {
-    let query_select_user = "SELECT * FROM ?? WHERE ?? = ? LIMIT 1";
-    const inserts = ['users', 'email', email];
-    query_select_user = mysql.format(query_select_user, inserts);
+    const query_select_user = `SELECT * FROM users WHERE email = '${email}' LIMIT 1`;
 
     db.query(query_select_user, (err, results) => {
         if (err) return done(err);
