@@ -26,14 +26,14 @@ Server-side API for _acqua_ written in Node.js
 - On success, parameters are saved to the `users` table in the database
 - Request
     - Parameters
-        ```javascript
-     {
-	    "email": "email",
-		"password": "password",
-		"first_name": "first_name",
-		"last_name": "last_name",
-		"phone_number": "phone_number"
-	}
+        ```js
+        {
+	        "email": "email address",
+	    	"password": "password",
+	    	"first_name": "first name",
+	    	"last_name": "last name",
+	    	"phone_number": "phone number"
+	    }
         ```
 
 #### /api/auth/signin
