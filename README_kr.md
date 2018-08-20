@@ -1,11 +1,9 @@
-[한국어](./README_kr.md)
-
 ## API Endpoints
 
-- Authentication
+- 사용자 인증
     - [x] [/api/auth/signup](#apiauthsignup)
     - [x] [/api/auth/signin](#apiauthsignin)  
-- User Data Manipulation
+- 사용자 정보 관련
     - [x] [/api/entries/get/:friend_id]
     - [x] [/api/entries/post/:friend_id]
     - [x] [/api/friends/get]
@@ -17,7 +15,7 @@
     - [ ] [/api/profiles/work/:user_id]
     - [ ] [/api/profiles/work/update]
 
-## API Description
+## API 설명
 #### /api/auth/signup
 
 #### /api/auth/signin
