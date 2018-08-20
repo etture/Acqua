@@ -1,3 +1,5 @@
+![acqua logo](./public/images/logo_white.png)
+
 # acqua API
 
 [한국어 버전](./README_kr.md)

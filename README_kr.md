@@ -1,3 +1,5 @@
+![acqua logo](./public/images/logo_white.png)
+
 # acqua API
 
 *acqua*를 위한 RESTful API
