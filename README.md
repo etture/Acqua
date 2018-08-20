@@ -1,6 +1,6 @@
-<img src="./public/images/logo_white.png" width="100">
-
 # acqua API
+
+<img src="./public/images/logo_white.png" width="200">
 
 [한국어 버전](./README_kr.md)
 
