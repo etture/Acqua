@@ -1,6 +1,6 @@
-![acqua logo](./public/images/logo_white.png)
-
 # acqua API
+
+<img src="./public/images/logo_white.png" width="200">
 
 *acqua*를 위한 RESTful API
 
