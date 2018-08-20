@@ -21,13 +21,14 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/friends/add](#apifriendsadd) `POST`
     - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [사용자 프로필](#사용자-프로필)
+    - [ ] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
     - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
     - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
     - [x] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
     - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
-    - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
+    - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `PUT`
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
-    - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `POST`
+    - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
 
 # API 설명
 ## 사용자 인증
@@ -234,6 +235,23 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     ```
 
 ## 사용자 프로필
+### /api/profiles/:user_id
+- HTTP method: `GET`
+- `user`의 모든 프로필 정보 반환
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+    ```js
+    {
+    
+    }
+    ```
+
 ### /api/profiles/basic
 - HTTP method: `GET`
 - `user` 기본 개인정보 반환
@@ -257,7 +275,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/basic/update
 - HTTP method: `PUT`
-- `user` 기본 개인정보 수정 (비밀번호 제외)
+- `user` 본인의 기본 개인정보 수정 (비밀번호 제외)
 - 만약 request parameter가 빈 문자열이면 해당 항목은 수정되지 않음
 - 만약 request parameter가 문자열을 포함하면 해당 항목은 그 문자열로 수정됨
 - Request
@@ -291,7 +309,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/basic/update_pw
 - HTTP method: `PUT`
-- `user` 비밀번호 수정
+- `user` 본인의 비밀번호 수정
 - 기존 비밀번호와 새 비밀번호를 parameter로 받음
 - 기존 비밀번호가 일치할 시 요청 실행하고 불일치 시 오류 발생 
 - Request
@@ -319,11 +337,17 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - HTTP method: `GET`
 - `user` 공개 프로필 정보 반환
 - Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
 - Response
 
 ### /api/profiles/profile/update
-- HTTP method: `POST`
-- `user` 공개 프로필 정보 수정
+- HTTP method: `PUT`
+- `user` 본인의 공개 프로필 정보 수정
 - Request
     - Header
         ```js
@@ -337,11 +361,17 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - HTTP method: `GET`
 - `user` 직업 정보 반환
 - Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
 - Response
 
 ### /api/profiles/work/update
-- HTTP method: `POST`
-- `user` 직업 정보 수정
+- HTTP method: `PUT`
+- `user` 본인의 직업 정보 수정
 - Request
     - Header
         ```js

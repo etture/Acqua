@@ -73,30 +73,22 @@ exports.signup = function (req, res, next) {
                             });
                         }
 
-                        db.query('INSERT INTO works SET user_id = ?', last_id, (err, result) => {
+                        db.commit((err) => {
                             if (err) {
                                 db.rollback(() => {
                                     return next(err);
                                 });
                             }
+                            console.log('insert user all complete');
 
-                            db.commit((err) => {
-                                if (err) {
-                                    db.rollback(() => {
-                                        return next(err);
-                                    });
-                                }
-                                console.log('insert user all complete');
-
-                                //Create and send JWT using the user_id
-                                res.send({
-                                    isSuccess: true,
-                                    user: {
-                                        id: last_id,
-                                        last_name, first_name, email, phone_number
-                                    },
-                                    token: tokenForUser(last_id)
-                                });
+                            //Create and send JWT using the user_id
+                            res.send({
+                                isSuccess: true,
+                                user: {
+                                    id: last_id,
+                                    last_name, first_name, email, phone_number
+                                },
+                                token: tokenForUser(last_id)
                             });
                         });
                     });
