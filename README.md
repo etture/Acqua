@@ -28,11 +28,11 @@ Server-side API for _acqua_ written in Node.js
     - Parameters
         ```js
         {
-	        "email": "email address",
-	    	"password": "password",
-	    	"first_name": "first name",
-	    	"last_name": "last name",
-	    	"phone_number": "phone number"
+	    "email": "email address",
+	    "password": "password",
+	    "first_name": "first name",
+	    "last_name": "last name",
+	    "phone_number": "phone number"
 	    }
         ```
 
