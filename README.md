@@ -45,9 +45,10 @@ Server written in Node.js
     {      
     "isSuccess": true,
 	"user": {
-            "email": "apitest@gmail.com",
-            "first_name": "Jordan",
+            "id": 231
             "last_name": "Belfort",
+            "first_name": "Jordan",
+            "email": "apitest@gmail.com",          
             "phone_number": "01049182881"
             }
 	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE0LCJpYXQiOjE1MzQ3NTI3MTAzMzF9.ZYo5qXNkGJ7l1rvCaKIYLknkUJNa3YjXT87Do-PyQZI"
@@ -200,12 +201,24 @@ Server written in Node.js
 - HTTP method: `GET`
 - Description
 - Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
 - Response
 
 ### /api/profiles/basic/update
 - HTTP method: `POST`
 - Description
 - Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
 - Response
 
 ### /api/profiles/profile/:user_id
@@ -218,6 +231,12 @@ Server written in Node.js
 - HTTP method: `POST`
 - Description
 - Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
 - Response
 
 ### /api/profiles/work/:user_id
@@ -230,4 +249,10 @@ Server written in Node.js
 - HTTP method: `POST`
 - Description
 - Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
 - Response

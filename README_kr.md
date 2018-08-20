@@ -43,9 +43,10 @@
     {      
     "isSuccess": true,
 	"user": {
-            "email": "apitest@gmail.com",
-            "first_name": "Jordan",
+            "id": 231
             "last_name": "Belfort",
+            "first_name": "Jordan",
+            "email": "apitest@gmail.com",          
             "phone_number": "01049182881"
             }
 	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE0LCJpYXQiOjE1MzQ3NTI3MTAzMzF9.ZYo5qXNkGJ7l1rvCaKIYLknkUJNa3YjXT87Do-PyQZI"
@@ -197,18 +198,42 @@
 ## 사용자 프로필
 ### /api/profiles/basic
 - HTTP method: `GET`
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
 
 ### /api/profiles/basic/update
 - HTTP method: `POST`
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
 
 ### /api/profiles/profile/:user_id
 - HTTP method: `GET`
 
 ### /api/profiles/profile/update
 - HTTP method: `POST`
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
 
 ### /api/profiles/work/:user_id
 - HTTP method: `GET`
 
 ### /api/profiles/work/update
 - HTTP method: `POST`
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
