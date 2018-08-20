@@ -2,6 +2,8 @@
 
 서버는 Node.js로 작성
 
+Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
+
 # API Endpoints
 
 - [사용자 인증](#사용자-인증)
@@ -107,6 +109,7 @@
       "created_at": "2018-08-20T06:32:17.000Z",
       "last_modified": "2018-08-20T06:32:17.000Z"
       },
+      ...
     ]
     ```
 

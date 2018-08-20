@@ -4,6 +4,8 @@ RESTful API for *acqua*
 
 Server written in Node.js
 
+Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
+
 # API Endpoints
 
 - [Authentication](#authentication)
@@ -108,6 +110,7 @@ Server written in Node.js
       "created_at": "2018-08-20T06:32:17.000Z",
       "last_modified": "2018-08-20T06:32:17.000Z"
       },
+      ...
     ]
     ```
 
