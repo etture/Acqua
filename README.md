@@ -1,6 +1,7 @@
 [한국어 버전](./README_kr.md)
 
 RESTful API for *acqua* 
+
 Server written in Node.js
 
 # API Endpoints
@@ -75,7 +76,7 @@ Server written in Node.js
 ## User Entries
 ### /api/entries/get/:friend_id
 - HTTP method: `GET`
-- Return the list of memo `entries` written by `user` about other `friends`
+- Return a list of memo `entries` written by `user` about other `friends`
 - `user` identified by JWT token provided in the header
 - Request
     - Sample Dummy Request Info
@@ -89,22 +90,22 @@ Server written in Node.js
         ```
 - Response
     ```js
-    [
+    [  
       {
-          "id": 423,
-          "user_id": 2,
-          "friend_id": 8,
-          "memo": "memo written by user 2 about user 8, blah blah...",
-          "created_at": "2018-08-19T12:30:21.000Z",
-          "last_modified": "2018-08-19T12:30:21.000Z"
+      "id": 423,
+      "user_id": 2,
+      "friend_id": 8,
+      "memo": "memo written by user 2 about user 8, blah blah...",
+      "created_at": "2018-08-19T12:30:21.000Z",
+      "last_modified": "2018-08-19T12:30:21.000Z"
       },
       {
-          "id": 516,
-          "user_id": 2,
-          "friend_id": 8,
-          "memo": "another memo written by user 2 about user 8, blah blah...",
-          "created_at": "2018-08-20T06:32:17.000Z",
-          "last_modified": "2018-08-20T06:32:17.000Z"
+      "id": 516,
+      "user_id": 2,
+      "friend_id": 8,
+      "memo": "another memo written by user 2 about user 8, blah blah...",
+      "created_at": "2018-08-20T06:32:17.000Z",
+      "last_modified": "2018-08-20T06:32:17.000Z"
       },
     ]
     ```
@@ -114,8 +115,8 @@ Server written in Node.js
 - Save a memo `entry` written by `user` about `friend` to the database
 - Request
     - Sample Dummy Request Info
-            - `user_id`: 2
-            - `friend_id`: 8
+        - `user_id`: 2
+        - `friend_id`: 8
     - Header
         ```js
         {
@@ -131,35 +132,82 @@ Server written in Node.js
 - Response
     ```js
     {  
-      "isSuccess": true,
-      "user_id": 2,
-      "friend_id": 8,
-      "post_id": 610
+    "isSuccess": true,
+    "user_id": 2,
+    "friend_id": 8,
+    "post_id": 610
     }
     ```
 
 ## Friends List
 ### /api/friends/get
 - HTTP method: `GET`
+- Return a list of `user`'s `friends`
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+    ```js
+    [
+      {  
+      "last_name": "Park",
+      "first_name": "Mark",
+      "email": "parkmark@gmail.com",
+      "phone_number": "01099291028"
+      },
+      {
+      "last_name": "Jong",
+      "first_name": "Soon",
+      "email": "jongsoon@gmail.com",
+      "phone_number": "01012345678"
+      },
+      ...
+	]
+    ```
 
 ### /api/friends/add
 - HTTP method: `POST'
+- Description
+- Request
+- Response
 
 ## User Profile
 ### /api/profiles/basic
 - HTTP method: `GET`
+- Description
+- Request
+- Response
 
 ### /api/profiles/basic/update
 - HTTP method: `POST`
+- Description
+- Request
+- Response
 
 ### /api/profiles/profile/:user_id
 - HTTP method: `GET`
+- Description
+- Request
+- Response
 
 ### /api/profiles/profile/update
 - HTTP method: `POST`
+- Description
+- Request
+- Response
 
 ### /api/profiles/work/:user_id
 - HTTP method: `GET`
+- Description
+- Request
+- Response
 
 ### /api/profiles/work/update
 - HTTP method: `POST`
+- Description
+- Request
+- Response

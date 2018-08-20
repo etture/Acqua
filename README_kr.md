@@ -91,20 +91,20 @@
     ```js
     [
       {
-          "id": 423,
-          "user_id": 2,
-          "friend_id": 8,
-          "memo": "memo written by user 2 about user 8, blah blah...",
-          "created_at": "2018-08-19T12:30:21.000Z",
-          "last_modified": "2018-08-19T12:30:21.000Z"
+      "id": 423,
+      "user_id": 2,
+      "friend_id": 8,
+      "memo": "memo written by user 2 about user 8, blah blah...",
+      "created_at": "2018-08-19T12:30:21.000Z",
+      "last_modified": "2018-08-19T12:30:21.000Z"
       },
       {
-          "id": 516,
-          "user_id": 2,
-          "friend_id": 8,
-          "memo": "another memo written by user 2 about user 8, blah blah...",
-          "created_at": "2018-08-20T06:32:17.000Z",
-          "last_modified": "2018-08-20T06:32:17.000Z"
+      "id": 516,
+      "user_id": 2,
+      "friend_id": 8,
+      "memo": "another memo written by user 2 about user 8, blah blah...",
+      "created_at": "2018-08-20T06:32:17.000Z",
+      "last_modified": "2018-08-20T06:32:17.000Z"
       },
     ]
     ```
@@ -114,8 +114,8 @@
 - `user`가 다른 `friend`에 대해 적은 메모 `entry`를 데이터베이스에 저장
 - Request
     - Sample Dummy Request 정보
-            - `user_id`: 2
-            - `friend_id`: 8
+        - `user_id`: 2
+        - `friend_id`: 8
     - Header
         ```js
         {
@@ -131,16 +131,42 @@
 - Response
     ```js
     {  
-      "isSuccess": true,
-      "user_id": 2,
-      "friend_id": 8,
-      "post_id": 610
+     "isSuccess": true,
+     "user_id": 2,
+     "friend_id": 8,
+     "post_id": 610
     }
     ```
 
 ## 친구 리스트
 ### /api/friends/get
 - HTTP method: `GET`
+- `user`가 가지고 있는 `friend` 목록 반환
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+    ```js
+    [
+      {  
+      "last_name": "Park",
+      "first_name": "Mark",
+      "email": "parkmark@gmail.com",
+      "phone_number": "01099291028"
+      },
+      {
+      "last_name": "Jong",
+      "first_name": "Soon",
+      "email": "jongsoon@gmail.com",
+      "phone_number": "01012345678"
+      },
+      ...
+	]
+    ```
 
 ### /api/friends/add
 - HTTP method: `POST'
