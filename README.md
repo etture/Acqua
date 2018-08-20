@@ -14,7 +14,7 @@ Server written in Node.js
 - [Friends List](#friends-list)
     - [x] [/api/friends/get](#apifriendsget)
     - [x] [/api/friends/add](#apifriendsadd)
-- {User Profile](#user-profile)
+- [User Profile](#user-profile)
     - [ ] [/api/profiles/basic](#apiprofilesbasic)
     - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate)
     - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id)
