@@ -86,7 +86,7 @@ exports.signup = function (req, res, next) {
 
                                     //Create and send JWT using the user_id
                                     res.send({
-                                        isSuccess: 'true',
+                                        isSuccess: true,
                                         user: {
                                             email, password, first_name, last_name, phone_number
                                         },
@@ -104,7 +104,7 @@ exports.signup = function (req, res, next) {
 
 exports.signin = function(req, res, next){
     res.send({
-        success: 'Successfully signed in',
+        isSuccess: true,
         token: tokenForUser(req.user.id)
     });
 };

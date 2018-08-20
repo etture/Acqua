@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(cors());
 
+//API route for all api requests
 app.use('/api', APIRouter);
 
 app.get('/', (req, res) => {

@@ -13,12 +13,10 @@ const jwtOptions = {
 
 const jwtCheck = new JwtStrategy(jwtOptions, function (payload, done) {
     const query_findById = `SELECT * FROM users WHERE id = '${payload.sub}'`;
-
     console.log("payload.sub:", payload.sub);
 
     db.query(query_findById, (err, results) => {
         if (err) return done(err, false);
-
         console.log("query result ok");
 
         //JWT token expires in 6 months
@@ -30,7 +28,6 @@ const jwtCheck = new JwtStrategy(jwtOptions, function (payload, done) {
 
         if (results) {
             const user = JSON.parse(JSON.stringify(results))[0];
-
             console.log("user matched with token:", user);
             done(null, user);
         } else {
@@ -56,7 +53,6 @@ const localSignin = new LocalStrategy(localOptions, function (email, password, d
         bcrypt.compare(password, user.password, function(err, isMatch) {
              if(err) return done(err);
              if(!isMatch) return done(null, false);
-
              return done(null, user);
         });
     });

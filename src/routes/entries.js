@@ -8,7 +8,8 @@ const router = express.Router();
 //Use requireAuth for any request that is executed while signed in
 const requireAuth = passport.authenticate('jwt', {session: false});
 
-router.get('/:friend_id', requireAuth, (req, res) => {
+//Get list of all comments written by user on friend
+router.get('/get/:friend_id', requireAuth, (req, res) => {
     const {friend_id} = req.params;
     const user_id = req.user.id;
 
@@ -25,7 +26,8 @@ router.get('/:friend_id', requireAuth, (req, res) => {
     });
 });
 
-router.post('/:friend_id', requireAuth, (req, res) => {
+//Post a comment on friend
+router.post('/post/:friend_id', requireAuth, (req, res) => {
     const {friend_id} = req.params;
     const user_id = req.user.id;
     const comment = req.body.comment;
@@ -38,7 +40,13 @@ router.post('/:friend_id', requireAuth, (req, res) => {
             res.send(err);
             console.log('error:', err);
         } else {
-            res.send('1 entry inserted');
+            res.send({
+                isSuccess: true,
+                reqEndpoint: '/api/entries/post/:friend_id',
+                user_id,
+                friend_id,
+                post_id: result.insertId
+            });
             console.log('1 entry inserted');
         }
     });
