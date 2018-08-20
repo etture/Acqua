@@ -6,7 +6,7 @@
     - [x] [/api/auth/signup](#apiauthsignup)
     - [x] [/api/auth/signin](#apiauthsignin)  
 - User Data Manipulation
-    - [x] [/api/entries/get/:friend_id](#apientriesget:friendid)
+    - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id)
     - [x] [/api/entries/post/:friend_id]
     - [x] [/api/friends/get]
     - [x] [/api/friends/add]
