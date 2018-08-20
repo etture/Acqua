@@ -6,7 +6,7 @@
     - [x] [/api/auth/signup](#apiauthsignup)
     - [x] [/api/auth/signin](#apiauthsignin)  
 - User Data Manipulation
-    - [x] [/api/entries/get/:friend_id]
+    - [x] [/api/entries/get/:friend_id](#apientriesgetfriendid)
     - [x] [/api/entries/post/:friend_id]
     - [x] [/api/friends/get]
     - [x] [/api/friends/add]
@@ -19,5 +19,14 @@
 
 ## API Description
 #### /api/auth/signup
-
 #### /api/auth/signin
+#### /api/entries/get/:friend_id
+#### /api/entries/post/:friend_id
+#### /api/friends/get
+#### /api/friends/add
+#### /api/profiles/basic
+#### /api/profiles/basic/update
+#### /api/profiles/profile/:user_id
+#### /api/profiles/profile/update
+#### /api/profiles/work/:user_id
+#### /api/profiles/work/update
