@@ -19,6 +19,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - [친구 리스트](#친구-리스트)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
+    - [ ] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [사용자 프로필](#사용자-프로필)
     - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
     - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
@@ -203,6 +204,17 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
+### /api/friends/nickname
+- HTTP method: `PUT`
+- `user`에게 보여질 `friend`의 별명을 수정
+- Request
+    ```js
+    {
+    "authorization": "JWT token"    
+    }
+    ```
+- Response
+
 ## 사용자 프로필
 ### /api/profiles/basic
 - HTTP method: `GET`
@@ -215,6 +227,15 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         }
         ```
 - Response
+    ```js
+    {
+    "id": 231
+    "last_name": "Belfort",
+    "first_name": "Jordan",
+    "email": "apitest@gmail.com",          
+    "phone_number": "01049182881"  
+    }
+    ```
 
 ### /api/profiles/basic/update
 - HTTP method: `POST`

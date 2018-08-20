@@ -12,7 +12,7 @@ const requireAuth = passport.authenticate('jwt', {session: false});
 router.get('/get', requireAuth, (req, res) => {
     const user_id = req.user.id;
 
-    const query_select_friends = "SELECT friends.friend_id, users.last_name, users.first_name, users.email, users.phone_number " +
+    const query_select_friends = "SELECT friends.friend_id, users.last_name, users.first_name, friends.nickname, users.email, users.phone_number " +
         `FROM users INNER JOIN friends ON users.id = friends.friend_id WHERE user_id = '${user_id}'`;
 
     db.query(query_select_friends, (err, results) => {
@@ -40,6 +40,11 @@ router.post('/add', requireAuth, (req, res) => {
         });
         console.log('1 friend inserted');
     });
+});
+
+//Edit friend's nickname to be displayed to user
+router.put('/nickname', requireAuth, (req, res) => {
+
 });
 
 module.exports = router;

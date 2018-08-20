@@ -24,7 +24,8 @@ router.get('/basic', requireAuth, (req, res) => {
 
 //Update the basic profile information about user (oneself) except for password
 router.put('/basic/update', (req, res) => {
-    res.send('update put route');
+    const {last_name, first_name, email, phone_number} = req.body;
+
 });
 
 router.get('/profile/:user_id', (req, res) => {

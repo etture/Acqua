@@ -21,6 +21,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - [Friends List](#friends-list)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
+    - [ ] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [User Profile](#user-profile)
     - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
     - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
@@ -203,6 +204,17 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     "friend_id": 8    
     }
     ```
+
+### /api/friends/nickname
+- HTTP method: `PUT`
+- Edit `friend`'s nickname to be displayed to `user`
+- Request
+    ```js
+    {
+    "authorization": "JWT token"    
+    }
+    ```
+- Response
 
 ## User Profile
 ### /api/profiles/basic
