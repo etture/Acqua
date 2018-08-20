@@ -1,3 +1,5 @@
+# acqua API
+
 [한국어 버전](./README_kr.md)
 
 RESTful API for *acqua* 
@@ -9,21 +11,21 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 # API Endpoints
 
 - [Authentication](#authentication)
-    - [x] [/api/auth/signup](#apiauthsignup)
-    - [x] [/api/auth/signin](#apiauthsignin)  
+    - [x] [/api/auth/signup](#apiauthsignup) `POST`
+    - [x] [/api/auth/signin](#apiauthsignin)  `POST`
 - [User Entries](#user-entries)
-    - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id)
-    - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id)
+    - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id) `GET`
+    - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id) `POST`
 - [Friends List](#friends-list)
-    - [x] [/api/friends/get](#apifriendsget)
-    - [x] [/api/friends/add](#apifriendsadd)
+    - [x] [/api/friends/get](#apifriendsget) `GET`
+    - [x] [/api/friends/add](#apifriendsadd) `POST`
 - [User Profile](#user-profile)
-    - [ ] [/api/profiles/basic](#apiprofilesbasic)
-    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate)
-    - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id)
-    - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate)
-    - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id)
-    - [ ] [/api/profiles/work/update](#apiprofilesworkupdate)
+    - [ ] [/api/profiles/basic](#apiprofilesbasic) `GET`
+    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `POST`
+    - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
+    - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
+    - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
+    - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `POST`
 
 # API Description
 ## Authentication
@@ -202,7 +204,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 ## User Profile
 ### /api/profiles/basic
 - HTTP method: `GET`
-- Description
+- Return basic, private `profile` information about `user` 
 - Request
     - Header
         ```js
@@ -214,7 +216,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/basic/update
 - HTTP method: `POST`
-- Description
+- Update `user`'s basic, private `profile` information
 - Request
     - Header
         ```js
@@ -226,13 +228,13 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/profile/:user_id
 - HTTP method: `GET`
-- Description
+- Return `user`'s public `profile` information
 - Request
 - Response
 
 ### /api/profiles/profile/update
 - HTTP method: `POST`
-- Description
+- Update `user`'s public `profile` information
 - Request
     - Header
         ```js
@@ -244,13 +246,13 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/work/:user_id
 - HTTP method: `GET`
-- Description
+- Return `user`'s work history information
 - Request
 - Response
 
 ### /api/profiles/work/update
 - HTTP method: `POST`
-- Description
+- Update `user`'s work history information
 - Request
     - Header
         ```js

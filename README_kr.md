@@ -1,3 +1,5 @@
+# acqua API
+
 *acqua*를 위한 RESTful API
 
 서버는 Node.js로 작성
@@ -7,21 +9,21 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 # API Endpoints
 
 - [사용자 인증](#사용자-인증)
-    - [x] [/api/auth/signup](#apiauthsignup)
-    - [x] [/api/auth/signin](#apiauthsignin)  
+    - [x] [/api/auth/signup](#apiauthsignup) `POST`
+    - [x] [/api/auth/signin](#apiauthsignin) `POST` 
 - [사용자 입력](#사용자-입력)
-    - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id)
-    - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id)
+    - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id) `GET`
+    - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id) `POST`
 - [친구 리스트](#친구-리스트)
-    - [x] [/api/friends/get](#apifriendsget)
-    - [x] [/api/friends/add](#apifriendsadd)
+    - [x] [/api/friends/get](#apifriendsget) `GET`
+    - [x] [/api/friends/add](#apifriendsadd) `POST`
 - [사용자 프로필](#사용자-프로필)
-    - [ ] [/api/profiles/basic](#apiprofilesbasic)
-    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate)
-    - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id)
-    - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate)
-    - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id)
-    - [ ] [/api/profiles/work/update](#apiprofilesworkupdate)
+    - [ ] [/api/profiles/basic](#apiprofilesbasic) `GET`
+    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `POST`
+    - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
+    - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
+    - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
+    - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `POST`
 
 # API 설명
 ## 사용자 인증
@@ -201,42 +203,60 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 ## 사용자 프로필
 ### /api/profiles/basic
 - HTTP method: `GET`
+- `user` 기본 개인정보 반환
+- Request
     - Header
         ```js
         {
         "authorization": "JWT 토큰"
         }
         ```
+- Response
 
 ### /api/profiles/basic/update
 - HTTP method: `POST`
+- `user` 기본 개인정보 수정
+- Request
     - Header
         ```js
         {
         "authorization": "JWT 토큰"
         }
         ```
+- Response
 
 ### /api/profiles/profile/:user_id
 - HTTP method: `GET`
+- `user` 공개 프로필 정보 반환
+- Request
+- Response
 
 ### /api/profiles/profile/update
 - HTTP method: `POST`
+- `user` 공개 프로필 정보 수정
+- Request
     - Header
         ```js
         {
         "authorization": "JWT 토큰"
         }
         ```
+- Response
 
 ### /api/profiles/work/:user_id
 - HTTP method: `GET`
+- `user` 직업 정보 반환
+- Request
+- Response
 
 ### /api/profiles/work/update
 - HTTP method: `POST`
+- `user` 직업 정보 수정
+- Request
     - Header
         ```js
         {
         "authorization": "JWT 토큰"
         }
         ```
+- Response
