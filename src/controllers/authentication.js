@@ -8,6 +8,19 @@ function tokenForUser(user_id) {
     return jwt.encode({sub: user_id, iat: timestamp}, config.secret);
 }
 
+exports.hashPassword = function (plainPassword, next) {
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) return next(err);
+
+        //Hash password
+        bcrypt.hash(plainPassword, salt, null, (err, hashedPassword) => {
+            if (err) return next(err);
+
+            next(null, hashedPassword);
+        });
+    });
+};
+
 exports.signup = function (req, res, next) {
     const email = req.body.email;
     let password = req.body.password;
@@ -32,64 +45,57 @@ exports.signup = function (req, res, next) {
 
         //If the email is available, create and save the new user
         //Create salt for password
-        bcrypt.genSalt(10, (err, salt) => {
-            if (err) return next(err);
+        exports.hashPassword(password, (err, hash) => {
+            password = hash;
 
-            //Hash password
-            bcrypt.hash(password, salt, null, (err, hash) => {
-                if (err) return next(err);
+            //Insert user into users table
+            db.beginTransaction((err) => {
+                if (err) throw err;
 
-                password = hash;
+                const inserts = {email, password, first_name, last_name, phone_number};
 
-                //Insert user into users table
-                db.beginTransaction((err) => {
-                    if(err) throw err;
+                db.query("INSERT INTO users SET ?", inserts, (err, result) => {
+                    if (err) {
+                        db.rollback(() => {
+                            return next(err);
+                        });
+                    }
 
-                    const inserts = {email, password, first_name, last_name, phone_number};
+                    //Get the auto-incrementing user_id from the last INSERT
+                    const last_id = result.insertId;
+                    console.log('last ID:', last_id);
 
-                    db.query("INSERT INTO users SET ?", inserts, (err, result) => {
+                    //Once the user has been inserted into `users`, create row for `profiles` and `works`
+                    db.query('INSERT INTO profiles SET user_id = ?', last_id, (err, result) => {
                         if (err) {
                             db.rollback(() => {
                                 return next(err);
                             });
                         }
 
-                        //Get the auto-incrementing user_id from the last INSERT
-                        const last_id = result.insertId;
-                        console.log('last ID:', last_id);
-
-                        //Once the user has been inserted into `users`, create row for `profiles` and `works`
-                        db.query('INSERT INTO profiles SET user_id = ?', last_id, (err, result) => {
+                        db.query('INSERT INTO works SET user_id = ?', last_id, (err, result) => {
                             if (err) {
                                 db.rollback(() => {
                                     return next(err);
                                 });
                             }
 
-                            db.query('INSERT INTO works SET user_id = ?', last_id, (err, result) => {
+                            db.commit((err) => {
                                 if (err) {
                                     db.rollback(() => {
                                         return next(err);
                                     });
                                 }
+                                console.log('insert user all complete');
 
-                                db.commit((err) => {
-                                    if (err) {
-                                        db.rollback(() => {
-                                            return next(err);
-                                        });
-                                    }
-                                    console.log('insert user all complete');
-
-                                    //Create and send JWT using the user_id
-                                    res.send({
-                                        isSuccess: true,
-                                        user: {
-                                            id: last_id,
-                                            last_name, first_name, email, phone_number
-                                        },
-                                        token: tokenForUser(last_id)
-                                    });
+                                //Create and send JWT using the user_id
+                                res.send({
+                                    isSuccess: true,
+                                    user: {
+                                        id: last_id,
+                                        last_name, first_name, email, phone_number
+                                    },
+                                    token: tokenForUser(last_id)
                                 });
                             });
                         });
@@ -100,7 +106,7 @@ exports.signup = function (req, res, next) {
     });
 };
 
-exports.signin = function(req, res, next){
+exports.signin = function (req, res, next) {
     res.send({
         isSuccess: true,
         token: tokenForUser(req.user.id)

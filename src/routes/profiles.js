@@ -3,6 +3,8 @@ const passport = require('passport');
 const passportService = require('../services/passport');
 const db = require('../db');
 const _ = require('lodash');
+const bcrypt = require('bcrypt-nodejs');
+const Authentication = require('../controllers/authentication');
 
 const router = express.Router();
 
@@ -11,16 +13,10 @@ const requireAuth = passport.authenticate('jwt', {session: false});
 
 //Get the basic profile information about user (oneself)
 router.get('/basic', requireAuth, (req, res) => {
-    const user_id = req.user.id;
+    const {id, last_name, first_name, email, phone_number} = req.user;
 
-    const query_select_user = "SELECT id, last_name, first_name, email, phone_number FROM users WHERE id = ?";
-
-    db.query(query_select_user, user_id, (err, results) => {
-        if (err) {
-            res.send(err);
-        }
-        const basic_profile = JSON.parse(JSON.stringify(results));
-        res.json(basic_profile);
+    res.json({
+        id, last_name, first_name, email, phone_number
     });
 });
 
@@ -39,7 +35,35 @@ router.put('/basic/update', requireAuth, (req, res) => {
         if (err) return res.send(err);
         res.send({
             isSuccess: true,
-            updated: updateItems
+            updatedItems: updateItems
+        });
+    });
+});
+
+//Update user's password
+router.put('/basic/update_pw', requireAuth, (req, res) => {
+    const user_id = req.user.id;
+    const {password} = req.user;
+    const {old_password, new_password} = req.body;
+
+    //Check if the provided password matches the password on the DB
+    bcrypt.compare(old_password, password, (err, isMatch) => {
+        if (err) return res.send(err);
+        if (!isMatch) return res.status(401).send({
+            isSuccess: false,
+            errorMessage: "password does not match"
+        });
+
+        //Password matched!
+        Authentication.hashPassword(new_password, (err, hash) => {
+            if (err) return res.send(err);
+
+            db.query("UPDATE users SET password = ? WHERE id = ?", [hash, user_id], (err, result) => {
+                if (err) return res.send(err);
+                res.send({
+                    isSuccess: true
+                });
+            });
         });
     });
 });
@@ -48,7 +72,7 @@ router.get('/profile/:user_id', (req, res) => {
 
 });
 
-router.post('/profile/update', (req, res) => {
+router.post('/profile/update', requireAuth, (req, res) => {
 
 });
 
@@ -56,7 +80,7 @@ router.get('/work/:user_id', (req, res) => {
 
 });
 
-router.post('/work/update', (req, res) => {
+router.post('/work/update', requireAuth, (req, res) => {
 
 });
 

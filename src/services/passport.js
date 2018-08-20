@@ -19,7 +19,7 @@ const jwtCheck = new JwtStrategy(jwtOptions, function (payload, done) {
         console.log("query result ok");
 
         //JWT token expires in 6 months
-        if((payload.iat / 1000 + 60 * 60 * 24 * 30 * 6) >= Date.now()){
+        if ((payload.iat / 1000 + 60 * 60 * 24 * 30 * 6) >= Date.now()) {
             console.log("jwt expired");
             return done(null, false);
         }
@@ -41,16 +41,16 @@ const localOptions = {
 };
 
 const localSignin = new LocalStrategy(localOptions, function (email, password, done) {
-        db.query("SELECT * FROM users WHERE email = ? LIMIT 1", email, (err, results) => {
+    db.query("SELECT * FROM users WHERE email = ? LIMIT 1", email, (err, results) => {
         if (err) return done(err);
-        if(!results) return done(null, false);
+        if (!results) return done(null, false);
 
         const user = JSON.parse(JSON.stringify(results))[0];
 
-        bcrypt.compare(password, user.password, function(err, isMatch) {
-             if(err) return done(err);
-             if(!isMatch) return done(null, false);
-             return done(null, user);
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (err) return done(err);
+            if (!isMatch) return done(null, false);
+            return done(null, user);
         });
     });
 });

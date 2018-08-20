@@ -25,7 +25,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - [User Profile](#user-profile)
     - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
     - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
-    - [ ] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
+    - [x] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
     - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
     - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
@@ -281,7 +281,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     ```js
     {
     "isSuccess": true,
-    "updated": {  
+    "updatedItems": {  
                "last_name": "Kim",
                "first_name": "Chulsoo",
                "email": "chulsoo@gmail.com"
@@ -293,6 +293,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/basic/update_pw
 - HTTP method: `PUT`
 - Update `user`'s password
+- Receive original password and new password as parameters
+- If the original password matches, place the request; otherwise, an error occurs 
 - Request
     - Header
         ```js
@@ -300,7 +302,19 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
+    - Parameters
+        ```js
+        {
+        "old_password": "original password",
+        "new_password": "new password"
+        }
+        ```
 - Response
+    ```js
+    {
+    "isSuccess": true
+    }
+    ```
 
 ### /api/profiles/profile/:user_id
 - HTTP method: `GET`

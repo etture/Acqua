@@ -23,7 +23,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - [사용자 프로필](#사용자-프로필)
     - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
     - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
-    - [ ] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
+    - [x] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
     - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
     - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
@@ -280,7 +280,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     ```js
     {
     "isSuccess": true,
-    "updated": {  
+    "updatedItems": {  
                "last_name": "김",
                "first_name": "철수",
                "email": "chulsoo@gmail.com"
@@ -292,6 +292,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/basic/update_pw
 - HTTP method: `PUT`
 - `user` 비밀번호 수정
+- 기존 비밀번호와 새 비밀번호를 parameter로 받음
+- 기존 비밀번호가 일치할 시 요청 실행하고 불일치 시 오류 발생 
 - Request
     - Header
         ```js
@@ -299,7 +301,19 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - Parameters
+        ```js
+        {
+        "old_password": "기존 비밀번호",
+        "new_password": "새로운 비밀번호"
+        }
+        ```
 - Response
+    ```js
+    {
+    "isSuccess": true
+    }
+    ```
 
 ### /api/profiles/profile/:user_id
 - HTTP method: `GET`
