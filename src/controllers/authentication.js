@@ -20,10 +20,8 @@ exports.signup = function (req, res, next) {
         return res.status(422).send({error: 'Must provide both email and password'});
     }
 
-    const query_select_user = `SELECT * FROM users WHERE email = '${email}' LIMIT 1`;
-
     //Check to see if an account already exists with that email
-    db.query(query_select_user, (err, results) => {
+    db.query("SELECT * FROM users WHERE email = ? LIMIT 1", email, (err, results) => {
         if (err) {
             return next(err);
         }
@@ -47,10 +45,9 @@ exports.signup = function (req, res, next) {
                 db.beginTransaction((err) => {
                     if(err) throw err;
 
-                    const query_signup = "INSERT INTO users (email, password, first_name, last_name, phone_number) VALUES " +
-                        `('${email}', '${password}', '${first_name}', '${last_name}', '${phone_number}')`;
+                    const inserts = {email, password, first_name, last_name, phone_number};
 
-                    db.query(query_signup, (err, result) => {
+                    db.query("INSERT INTO users SET ?", inserts, (err, result) => {
                         if (err) {
                             db.rollback(() => {
                                 return next(err);

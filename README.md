@@ -24,7 +24,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [User Profile](#user-profile)
     - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
-    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
+    - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
     - [ ] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
     - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
     - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
@@ -210,8 +210,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - Edit `friend`'s nickname to be displayed to `user`
 - Request
     - Sample Dummy Request Info
-            - `friend_id`: 7
-            - `nickname`: "Wolverine"
+        - `friend_id`: 7
+        - `nickname`: "Wolverine"
     - Header
         ```js
         {
@@ -259,6 +259,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/basic/update
 - HTTP method: `PUT`
 - Update `user`'s basic, private `profile` information, except for password
+- If a request parameter is an empty string, the item is not updated
+- If a request parameter contains a string, the item is updated to that string
 - Request
     - Header
         ```js
@@ -266,7 +268,27 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
+    - Parameters
+        ```js
+        {
+        "last_name": "updated item or empty string",
+        "first_name": "updated item or empty string",
+        "email": "updated item or empty string",
+        "phone_number": "updated item or empty string"
+        }
+        ```
 - Response
+    ```js
+    {
+    "isSuccess": true,
+    "updated": {  
+               "last_name": "Kim",
+               "first_name": "Chulsoo",
+               "email": "chulsoo@gmail.com"
+               "phone_number": "01012345678"
+               }
+    }
+    ```
 
 ### /api/profiles/basic/update_pw
 - HTTP method: `PUT`

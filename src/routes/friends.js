@@ -12,10 +12,9 @@ const requireAuth = passport.authenticate('jwt', {session: false});
 router.get('/get', requireAuth, (req, res) => {
     const user_id = req.user.id;
 
-    const query_select_friends = "SELECT friends.friend_id, users.last_name, users.first_name, friends.nickname, users.email, users.phone_number " +
-        `FROM users INNER JOIN friends ON users.id = friends.friend_id WHERE user_id = '${user_id}'`;
+    const query_select_friends = "SELECT friends.friend_id, users.last_name, users.first_name, friends.nickname, users.email, users.phone_number FROM users INNER JOIN friends ON users.id = friends.friend_id WHERE user_id = ?";
 
-    db.query(query_select_friends, (err, results) => {
+    db.query(query_select_friends, [user_id], (err, results) => {
         if (err) {
             res.send(err);
         } else {
@@ -30,9 +29,9 @@ router.post('/add', requireAuth, (req, res) => {
     const user_id = req.user.id;
     const friend_id = req.body.friend_id;
 
-    const query_add_friend = `INSERT INTO friends (user_id, friend_id) VALUES ('${user_id}', '${friend_id}')`;
+    const inserts = {user_id, friend_id};
 
-    db.query(query_add_friend, (err, result) => {
+    db.query("INSERT INTO friends SET ?", inserts, (err, result) => {
         if (err) return res.send(err);
         res.send({
             isSuccess: true,
@@ -47,8 +46,7 @@ router.put('/nickname', requireAuth, (req, res) => {
     const {nickname, friend_id} = req.body;
     const user_id = req.user.id;
 
-    const query_edit_nickname = `UPDATE friends SET nickname = '${nickname}' WHERE user_id = '${user_id}' AND friend_id = '${friend_id}'`;
-    db.query(query_edit_nickname, (err, result) => {
+    db.query("UPDATE friends SET nickname = ? WHERE user_id = ? AND friend_id = ?", [nickname, user_id, friend_id], (err, result) => {
         if(err) return res.send(err);
         res.send({
             isSuccess: true,

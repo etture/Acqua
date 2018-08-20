@@ -13,9 +13,7 @@ router.get('/get/:friend_id', requireAuth, (req, res) => {
     const {friend_id} = req.params;
     const user_id = req.user.id;
 
-    const query_select_entries = `SELECT * FROM entries WHERE user_id = '${user_id}' AND friend_id = '${friend_id}'`;
-
-    db.query(query_select_entries, (err, results) => {
+    db.query("SELECT * FROM entries WHERE user_id = ? AND friend_id = ?", [user_id, friend_id], (err, results) => {
         if (err) {
             res.send(err);
             console.log('error:', err);
@@ -32,10 +30,9 @@ router.post('/post/:friend_id', requireAuth, (req, res) => {
     const user_id = req.user.id;
     const memo = req.body.memo;
 
-    const query_insert_entry = "INSERT INTO entries (user_id, friend_id, memo) VALUES " +
-        `('${user_id}', '${friend_id}', '${memo}')`;
+    const inserts = {user_id, friend_id, memo};
 
-    db.query(query_insert_entry, (err, result) => {
+    db.query("INSERT INTO entries SET ?", inserts, (err, result) => {
         if (err) {
             res.send(err);
             console.log('error:', err);

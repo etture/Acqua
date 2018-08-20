@@ -22,7 +22,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [사용자 프로필](#사용자-프로필)
     - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
-    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
+    - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
     - [ ] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
     - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
     - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
@@ -164,15 +164,15 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     [
       {  
       "friend_id": 7,
-      "last_name": "Park",
-      "first_name": "Mark",
+      "last_name": "박",
+      "first_name": "민수",
       "email": "parkmark@gmail.com",
       "phone_number": "01099291028"
       },
       {
       "friend_id": 9,  
-      "last_name": "Jong",
-      "first_name": "Soon",
+      "last_name": "정",
+      "first_name": "순효",
       "email": "jongsoon@gmail.com",
       "phone_number": "01012345678"
       },
@@ -209,8 +209,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - `user`에게 보여질 `friend`의 별명을 수정
 - Request
     - Sample Dummy Request 정보
-            - `friend_id`: 7
-            - `nickname`: "Wolverine"
+        - `friend_id`: 7
+        - `nickname`: "Wolverine"
     - Header
         ```js
         {
@@ -256,8 +256,10 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     ```
 
 ### /api/profiles/basic/update
-- HTTP method: `POST`
+- HTTP method: `PUT`
 - `user` 기본 개인정보 수정 (비밀번호 제외)
+- 만약 request parameter가 빈 문자열이면 해당 항목은 수정되지 않음
+- 만약 request parameter가 문자열을 포함하면 해당 항목은 그 문자열로 수정됨
 - Request
     - Header
         ```js
@@ -265,7 +267,27 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - Parameters
+        ```js
+        {
+        "last_name": "수정된 항목 혹은 빈 문자열",
+        "first_name": "수정된 항목 혹은 빈 문자열",
+        "email": "수정된 항목 혹은 빈 문자열",
+        "phone_number": "수정된 항목 혹은 빈 문자열"
+        }
+        ```
 - Response
+    ```js
+    {
+    "isSuccess": true,
+    "updated": {  
+               "last_name": "김",
+               "first_name": "철수",
+               "email": "chulsoo@gmail.com"
+               "phone_number": "01012345678"
+               }
+    }
+    ```
 
 ### /api/profiles/basic/update_pw
 - HTTP method: `PUT`

@@ -12,10 +12,9 @@ const jwtOptions = {
 };
 
 const jwtCheck = new JwtStrategy(jwtOptions, function (payload, done) {
-    const query_findById = `SELECT * FROM users WHERE id = '${payload.sub}'`;
     console.log("payload.sub:", payload.sub);
 
-    db.query(query_findById, (err, results) => {
+    db.query("SELECT * FROM users WHERE id = ?", payload.sub, (err, results) => {
         if (err) return done(err, false);
         console.log("query result ok");
 
@@ -42,9 +41,7 @@ const localOptions = {
 };
 
 const localSignin = new LocalStrategy(localOptions, function (email, password, done) {
-    const query_select_user = `SELECT * FROM users WHERE email = '${email}' LIMIT 1`;
-
-    db.query(query_select_user, (err, results) => {
+        db.query("SELECT * FROM users WHERE email = ? LIMIT 1", email, (err, results) => {
         if (err) return done(err);
         if(!results) return done(null, false);
 
