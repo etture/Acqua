@@ -21,7 +21,7 @@ _acqua_를 위한 서버 API (Node.js)
 #### /api/auth/signup
 - HTTP method: `POST`
 - 사용자의 회원가입을 위한 endpoint
-- 성공 시 데이터베이스 내 `users` 테이블에 parameter 저장
+- 성공 시 데이터베이스 내 `users` 테이블에 parameter 저장되고 JWT 토큰이 반환
 - Request
     - Parameters
         ```js
@@ -39,7 +39,6 @@ _acqua_를 위한 서버 API (Node.js)
     "isSuccess": true,
 	"user": {
             "email": "apitest@gmail.com",
-            "password": "$2a$10$LKzOuXTrjk2eFj735NUCiu6ecLLH/oYF2hvU4b6HDz7CgrxwtkEAi",
             "first_name": "Jordan",
             "last_name": "Belfort",
             "phone_number": "01049182881"
@@ -49,6 +48,25 @@ _acqua_를 위한 서버 API (Node.js)
     ```
     
 #### /api/auth/signin
+- HTTP method: `POST`
+- 사용자의 로그인을 위한 endpoint
+- 성공 시 JWT 토큰이 반환
+- Request
+    - Parameters
+        ```js
+        {
+        "email": "이메일 주소",
+        "password": "비밀번호"
+        }
+        ```
+- Response
+    ```js
+    {
+    "isSuccess": true,
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE0LCJpYXQiOjE1MzQ3NTI3MTAzMzF9.ZYo5qXNkGJ7l1rvCaKIYLknkUJNa3YjXT87Do-PyQZI"
+    }
+    ```
+    
 #### /api/auth/signup
 #### /api/auth/signin
 #### /api/entries/get/:friend_id

@@ -23,7 +23,7 @@ Server-side API for _acqua_ written in Node.js
 #### /api/auth/signup
 - HTTP method: `POST`
 - Endpoint for a user to sign up
-- On success, parameters are saved to the `users` table in the database
+- On success, parameters are saved to the `users` table in the database and a JWT token is returned
 - Request
     - Parameters
         ```js
@@ -41,7 +41,6 @@ Server-side API for _acqua_ written in Node.js
     "isSuccess": true,
 	"user": {
             "email": "apitest@gmail.com",
-            "password": "$2a$10$LKzOuXTrjk2eFj735NUCiu6ecLLH/oYF2hvU4b6HDz7CgrxwtkEAi",
             "first_name": "Jordan",
             "last_name": "Belfort",
             "phone_number": "01049182881"
@@ -51,6 +50,25 @@ Server-side API for _acqua_ written in Node.js
     ```
       
 #### /api/auth/signin
+- HTTP method: `POST`
+- Endpoint for a user to sign in
+- On success, a JWT token is returned
+- Request
+    - Parameters
+        ```js
+        {
+        "email": "email address",
+        "password": "password"
+        }
+        ```
+- Response
+    ```js
+    {
+    "isSuccess": true,
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE0LCJpYXQiOjE1MzQ3NTI3MTAzMzF9.ZYo5qXNkGJ7l1rvCaKIYLknkUJNa3YjXT87Do-PyQZI"
+    }
+    ```
+    
 #### /api/entries/get/:friend_id
 #### /api/entries/post/:friend_id
 #### /api/friends/get

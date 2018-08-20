@@ -88,7 +88,7 @@ exports.signup = function (req, res, next) {
                                     res.send({
                                         isSuccess: true,
                                         user: {
-                                            email, password, first_name, last_name, phone_number
+                                            email, first_name, last_name, phone_number
                                         },
                                         token: tokenForUser(last_id)
                                     });
