@@ -35,7 +35,21 @@ Server-side API for _acqua_ written in Node.js
 	    "phone_number": "phone number"
 	    }
         ```
-
+- Response
+    - ```js
+      {      
+      "isSuccess": true,
+	  "user": {
+              "email": "apitest@gmail.com",
+              "password": "$2a$10$LKzOuXTrjk2eFj735NUCiu6ecLLH/oYF2hvU4b6HDz7CgrxwtkEAi",
+              "first_name": "Jordan",
+              "last_name": "Belfort",
+              "phone_number": "01049182881"
+              }
+	  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE0LCJpYXQiOjE1MzQ3NTI3MTAzMzF9.ZYo5qXNkGJ7l1rvCaKIYLknkUJNa3YjXT87Do-PyQZI"
+	  }
+      ```
+      
 #### /api/auth/signin
 #### /api/entries/get/:friend_id
 #### /api/entries/post/:friend_id
