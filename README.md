@@ -27,13 +27,13 @@ Server-side API for _acqua_ written in Node.js
 - Request
     - Parameters
         ```javascript
-            "parameters": {
-				"email": "email",
-				password: "password",
-				first_name: "first_name",
-				last_name: "last_name",
-				phone_number: "phone_number"
-			}
+     {
+	    "email": "email",
+		"password": "password",
+		"first_name": "first_name",
+		"last_name": "last_name",
+		"phone_number": "phone_number"
+	}
         ```
 
 #### /api/auth/signin
