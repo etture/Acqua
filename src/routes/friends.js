@@ -36,7 +36,6 @@ router.post('/add', requireAuth, (req, res) => {
         if (err) return res.send(err);
         res.send({
             isSuccess: true,
-            reqEndpoint: '/api/friends/add',
             friend_id
         });
         console.log('1 friend inserted');

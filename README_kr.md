@@ -1,7 +1,8 @@
 *acqua*를 위한 RESTful API
+
 서버는 Node.js로 작성
 
-## API Endpoints
+# API Endpoints
 
 - [사용자 인증](#사용자-인증)
     - [x] [/api/auth/signup](#apiauthsignup)
@@ -20,11 +21,11 @@
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id)
     - [ ] [/api/profiles/work/update](#apiprofilesworkupdate)
 
-## API 설명
-### 사용자 인증
-#### /api/auth/signup
+# API 설명
+## 사용자 인증
+### /api/auth/signup
 - HTTP method: `POST`
-- 사용자의 회원가입을 위한 endpoint
+- `user`의 회원가입을 위한 endpoint
 - 성공 시 데이터베이스 내 `users` 테이블에 parameter 저장되고 JWT 토큰이 반환
 - Request
     - Parameters
@@ -51,9 +52,9 @@
 	}
     ```
     
-#### /api/auth/signin
+### /api/auth/signin
 - HTTP method: `POST`
-- 사용자의 로그인을 위한 endpoint
+- `user`의 로그인을 위한 endpoint
 - 성공 시 JWT 토큰이 반환
 - Request
     - Parameters
@@ -71,11 +72,11 @@
     }
     ```
 
-### 사용자 입력
-#### /api/entries/get/:friend_id
+## 사용자 입력
+### /api/entries/get/:friend_id
 - HTTP method: `GET`
-- 사용자가 다른 친구에 대해서 적은 메모 목록을 반환
-- 사용자는 header에 포함된 JWT 토큰으로 식별
+- `user`가 다른 `friend`에 대해서 적은 메모 `entry` 목록을 반환
+- `user`는 header에 포함된 JWT 토큰으로 식별
 - Request
     - Sample Dummy Request 정보
         - `user_id`: 2
@@ -108,31 +109,57 @@
     ]
     ```
 
-#### /api/entries/post/:friend_id
+### /api/entries/post/:friend_id
 - HTTP method: `POST`
+- `user`가 다른 `friend`에 대해 적은 메모 `entry`를 데이터베이스에 저장
+- Request
+    - Sample Dummy Request 정보
+            - `user_id`: 2
+            - `friend_id`: 8
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+    - Parameters
+        ```js
+        {
+        "memo": "사용자가 친구에 대해서 적은 메모"
+        }
+        ```
+- Response
+    ```js
+    {  
+      "isSuccess": true,
+      "user_id": 2,
+      "friend_id": 8,
+      "post_id": 610
+    }
+    ```
 
-### 친구 리스트
-#### /api/friends/get
+## 친구 리스트
+### /api/friends/get
 - HTTP method: `GET`
 
-#### /api/friends/add
+### /api/friends/add
 - HTTP method: `POST'
 
-### 사용자 프로필
-#### /api/profiles/basic
+## 사용자 프로필
+### /api/profiles/basic
 - HTTP method: `GET`
 
-#### /api/profiles/basic/update
+### /api/profiles/basic/update
 - HTTP method: `POST`
 
-#### /api/profiles/profile/:user_id
+### /api/profiles/profile/:user_id
 - HTTP method: `GET`
 
-#### /api/profiles/profile/update
+### /api/profiles/profile/update
 - HTTP method: `POST`
 
-#### /api/profiles/work/:user_id
+### /api/profiles/work/:user_id
 - HTTP method: `GET`
 
-#### /api/profiles/work/update
+### /api/profiles/work/update
 - HTTP method: `POST`

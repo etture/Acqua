@@ -42,7 +42,6 @@ router.post('/post/:friend_id', requireAuth, (req, res) => {
         } else {
             res.send({
                 isSuccess: true,
-                reqEndpoint: '/api/entries/post/:friend_id',
                 user_id,
                 friend_id,
                 post_id: result.insertId

@@ -3,7 +3,7 @@
 RESTful API for *acqua* 
 Server written in Node.js
 
-## API Endpoints
+# API Endpoints
 
 - [Authentication](#authentication)
     - [x] [/api/auth/signup](#apiauthsignup)
@@ -22,11 +22,11 @@ Server written in Node.js
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id)
     - [ ] [/api/profiles/work/update](#apiprofilesworkupdate)
 
-## API Description
-### Authentication
-#### /api/auth/signup
+# API Description
+## Authentication
+### /api/auth/signup
 - HTTP method: `POST`
-- Endpoint for a user to sign up
+- Endpoint for `user` to sign up
 - On success, parameters are saved to the `users` table in the database and a JWT token is returned
 - Request
     - Parameters
@@ -53,9 +53,9 @@ Server written in Node.js
 	}
     ```
       
-#### /api/auth/signin
+### /api/auth/signin
 - HTTP method: `POST`
-- Endpoint for a user to sign in
+- Endpoint for `user` to sign in
 - On success, a JWT token is returned
 - Request
     - Parameters
@@ -72,11 +72,11 @@ Server written in Node.js
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE0LCJpYXQiOjE1MzQ3NTI3MTAzMzF9.ZYo5qXNkGJ7l1rvCaKIYLknkUJNa3YjXT87Do-PyQZI"
     }
     ```
-### User Entries
-#### /api/entries/get/:friend_id
+## User Entries
+### /api/entries/get/:friend_id
 - HTTP method: `GET`
-- Return the list of entries written by user about other friends
-- User identified by JWT token provided in the header
+- Return the list of memo `entries` written by `user` about other `friends`
+- `user` identified by JWT token provided in the header
 - Request
     - Sample Dummy Request Info
         - `user_id`: 2
@@ -109,31 +109,57 @@ Server written in Node.js
     ]
     ```
 
-#### /api/entries/post/:friend_id
+### /api/entries/post/:friend_id
 - HTTP method: `POST`
+- Save a memo `entry` written by `user` about `friend` to the database
+- Request
+    - Sample Dummy Request Info
+            - `user_id`: 2
+            - `friend_id`: 8
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+    - Parameters
+        ```js
+        {
+        "memo": "memo about a friend"
+        }
+        ```
+- Response
+    ```js
+    {  
+      "isSuccess": true,
+      "user_id": 2,
+      "friend_id": 8,
+      "post_id": 610
+    }
+    ```
 
-### Friends List
-#### /api/friends/get
+## Friends List
+### /api/friends/get
 - HTTP method: `GET`
 
-#### /api/friends/add
+### /api/friends/add
 - HTTP method: `POST'
 
-### User Profile
-#### /api/profiles/basic
+## User Profile
+### /api/profiles/basic
 - HTTP method: `GET`
 
-#### /api/profiles/basic/update
+### /api/profiles/basic/update
 - HTTP method: `POST`
 
-#### /api/profiles/profile/:user_id
+### /api/profiles/profile/:user_id
 - HTTP method: `GET`
 
-#### /api/profiles/profile/update
+### /api/profiles/profile/update
 - HTTP method: `POST`
 
-#### /api/profiles/work/:user_id
+### /api/profiles/work/:user_id
 - HTTP method: `GET`
 
-#### /api/profiles/work/update
+### /api/profiles/work/update
 - HTTP method: `POST`
