@@ -20,8 +20,9 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
 - [사용자 프로필](#사용자-프로필)
-    - [ ] [/api/profiles/basic](#apiprofilesbasic) `GET`
-    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `POST`
+    - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
+    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
+    - [ ] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
     - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
     - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
@@ -217,12 +218,24 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/basic/update
 - HTTP method: `POST`
-- `user` 기본 개인정보 수정
+- `user` 기본 개인정보 수정 (비밀번호 제외)
 - Request
     - Header
         ```js
         {
         "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+
+### /api/profiles/basic/update_pw
+- HTTP method: `PUT`
+- `user` 비밀번호 수정
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
         }
         ```
 - Response

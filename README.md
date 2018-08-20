@@ -22,8 +22,9 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
 - [User Profile](#user-profile)
-    - [ ] [/api/profiles/basic](#apiprofilesbasic) `GET`
-    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `POST`
+    - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
+    - [ ] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
+    - [ ] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
     - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
     - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `POST`
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
@@ -215,10 +216,31 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         }
         ```
 - Response
+    ```js
+    {
+    "id": 231
+    "last_name": "Belfort",
+    "first_name": "Jordan",
+    "email": "apitest@gmail.com",          
+    "phone_number": "01049182881"  
+    }
+    ```
 
 ### /api/profiles/basic/update
-- HTTP method: `POST`
-- Update `user`'s basic, private `profile` information
+- HTTP method: `PUT`
+- Update `user`'s basic, private `profile` information, except for password
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+
+### /api/profiles/basic/update_pw
+- HTTP method: `PUT`
+- Update `user`'s password
 - Request
     - Header
         ```js
