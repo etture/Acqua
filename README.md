@@ -136,9 +136,6 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - HTTP method: `POST`
 - Save a memo `entry` written by `user` about `friend` to the database
 - Request
-    - Sample Dummy Request Info
-        - `user_id`: 2
-        - `friend_id`: 8
     - Header
         ```js
         {
@@ -165,7 +162,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 
 ### /api/entries/edit/:entry_id
 - HTTP method: `PUT`
-- Edit `user`'s memo about `friend` using the `entry` id
+- Edit `user`'s memo about `friend` using `entry_id`
 - Request
     - Header
         ```js

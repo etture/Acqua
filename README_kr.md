@@ -161,7 +161,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 
 ### /api/entries/edit/:entry_id
 - HTTP method: `PUT`
-- `user`가 `friend`에 대해서 작성한 메모를 수정 (`entry` id를 이용해 접근)
+- `user`가 `friend`에 대해서 작성한 메모를 수정 (`entry_id`를 이용해 접근)
 - Request
     - Header
         ```js
