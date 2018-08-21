@@ -16,18 +16,24 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - [사용자 입력](#사용자-입력)
     - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id) `GET`
     - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id) `POST`
+    - [ ] [/api/entries/edit/:entry_id](#apientriesputentry_id) `PUT`
 - [친구 리스트](#친구-리스트)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
     - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [사용자 프로필](#사용자-프로필)
+    - [ ] [/api/profiles/self](#apiprofilesself) `GET`
     - [ ] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
-    - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
+    - [x] [/api/profiles/basic/self](#apiprofilesbasicself) `GET`
+    - [x] [/api/profiles/basic/:user_id](#apiprofilesbasicuser_id) `GET`
     - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
     - [x] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
-    - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
+    - [ ] [/api/profiles/profile/self](#apiprofilesprofileself) `GET`
+    - [x] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
     - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `PUT`
+    - [ ] [/api/profiles/work/self](#apiprofilesworkself) `GET`
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
+    - [ ] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
     - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
 
 # API 설명
@@ -149,6 +155,23 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
+### /api/entries/edit/:entry_id
+- HTTP method: `PUT`
+- `user`가 `friend`에 대해서 작성한 메모를 수정 (`entry` id를 이용해 접근)
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+    ```js
+    {
+    
+    }
+    ```
+
 ## 친구 리스트
 ### /api/friends/get
 - HTTP method: `GET`
@@ -235,9 +258,9 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     ```
 
 ## 사용자 프로필
-### /api/profiles/:user_id
+### /api/profiles/self
 - HTTP method: `GET`
-- `user`의 모든 프로필 정보 반환
+- `user` 본인의 모든 프로필 정보 반환
 - Request
     - Header
         ```js
@@ -252,9 +275,47 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
-### /api/profiles/basic
+### /api/profiles/:user_id
 - HTTP method: `GET`
-- `user` 기본 개인정보 반환
+- 다른 `user`의 모든 프로필 정보 반환
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+    ```js
+    {
+    
+    }
+    ```
+
+### /api/profiles/basic/self
+- HTTP method: `GET`
+- `user` 본인의 기본 개인정보 반환
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+    ```js
+    {
+    "id": 231
+    "last_name": "Belfort",
+    "first_name": "Jordan",
+    "email": "apitest@gmail.com",          
+    "phone_number": "01049182881"  
+    }
+    ```
+    
+### /api/profiles/basic/:user_id
+- HTTP method: `GET`
+- 다른 `user`의 기본 정보 반환
 - Request
     - Header
         ```js
@@ -333,9 +394,9 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
-### /api/profiles/profile/:user_id
+### /api/profiles/profile/self
 - HTTP method: `GET`
-- `user` 공개 프로필 정보 반환
+- `user` 본인의 공개 프로필 정보 반환
 - Request
     - Header
         ```js
@@ -344,6 +405,52 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         }
         ```
 - Response
+    ```js
+    {
+    "user_id": 13,
+    "gender": "female",
+    "birthday": null,
+    "profile_picture": null,
+    "high_school": "청담고등학교",
+    "university_name": "고려대학교",
+    "university_major": "컴퓨터공학",
+    "graduate_masters_name": null,
+    "graduate_masters_major": null,
+    "graduate_phd_name": null,
+    "graduate_phd_major": null,
+    "current_work_name": "Google",
+    "current_work_position": "개발자"
+    }
+    ```
+
+### /api/profiles/profile/:user_id
+- HTTP method: `GET`
+- 다른 `user`의 공개 프로필 정보 반환
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+    ```js
+    {
+    "user_id": 13,
+    "gender": "female",
+    "birthday": null,
+    "profile_picture": null,
+    "high_school": "청담고등학교",
+    "university_name": "고려대학교",
+    "university_major": "컴퓨터공학",
+    "graduate_masters_name": null,
+    "graduate_masters_major": null,
+    "graduate_phd_name": null,
+    "graduate_phd_major": null,
+    "current_work_name": "Google",
+    "current_work_position": "개발자"
+    }
+    ```
 
 ### /api/profiles/profile/update
 - HTTP method: `PUT`
@@ -357,9 +464,21 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         ```
 - Response
 
+### /api/profiles/work/self
+- HTTP method: `GET`
+- `user` 본인의 직업 정보 반환
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+
 ### /api/profiles/work/:user_id
 - HTTP method: `GET`
-- `user` 직업 정보 반환
+- 다른 `user`의 직업 정보 반환
 - Request
     - Header
         ```js

@@ -11,17 +11,36 @@ const router = express.Router();
 //Use requireAuth for any request that is executed while signed in
 const requireAuth = passport.authenticate('jwt', {session: false});
 
+//Get all of a user's profile information at once (oneself)
+router.get('/self', requireAuth, (req, res) => {
+
+});
+
 //Get all of a user's profile information at once (third-person)
-router.get('/:user_id', (req, res) => {
+router.get('/:user_id', requireAuth, (req, res) => {
 
 });
 
 //Get the basic profile information about user (oneself)
-router.get('/basic', requireAuth, (req, res) => {
+router.get('/basic/self', requireAuth, (req, res) => {
     const {id, last_name, first_name, email, phone_number} = req.user;
-
+    console.log('route called');
     res.json({
         id, last_name, first_name, email, phone_number
+    });
+});
+
+//Get the basic profile information about another user
+router.get('/basic/:user_id', requireAuth, (req, res) => {
+    const {user_id} = req.params;
+
+    db.query("SELECT * FROM users WHERE id = ? LIMIT 1", user_id, (err, results) => {
+        if (err) return res.send(err);
+        const user = JSON.parse(JSON.stringify(results))[0];
+        const {id, last_name, first_name, email, phone_number} = user;
+        res.json({
+            id, last_name, first_name, email, phone_number
+        });
     });
 });
 
@@ -73,12 +92,17 @@ router.put('/basic/update_pw', requireAuth, (req, res) => {
     });
 });
 
-//Return user's public profile information
+//Return user's public profile information (oneself)
+router.get('/profile/self', requireAuth, (req, res) => {
+
+});
+
+//Return user's public profile information (third-person)
 router.get('/profile/:user_id', requireAuth, (req, res) => {
     const user_id = req.params.user_id;
 
     db.query("SELECT * FROM profiles WHERE user_id = ? LIMIT 1", user_id, (err, results) => {
-        if(err) return res.send(err);
+        if (err) return res.send(err);
         const user_profile = JSON.parse(JSON.stringify(results))[0];
         res.json(user_profile);
     });
@@ -88,6 +112,12 @@ router.post('/profile/update', requireAuth, (req, res) => {
 
 });
 
+//Return user's work history information, sorted by ascending order starting date (oneself)
+router.get('/work/self', requireAuth, (req, res) => {
+
+});
+
+//Return user's work history information, sorted by ascending order starting date (third-person)
 router.get('/work/:user_id', requireAuth, (req, res) => {
 
 });
@@ -95,7 +125,6 @@ router.get('/work/:user_id', requireAuth, (req, res) => {
 router.post('/work/update', requireAuth, (req, res) => {
 
 });
-
 
 
 module.exports = router;

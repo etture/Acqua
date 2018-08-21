@@ -18,18 +18,24 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - [User Entries](#user-entries)
     - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id) `GET`
     - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id) `POST`
+    - [ ] [/api/entries/edit/:entry_id](#apientriesputentry_id) `PUT`    
 - [Friends List](#friends-list)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
     - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [User Profile](#user-profile)
+    - [ ] [/api/profiles/self](#apiprofilesself) `GET`
     - [ ] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
-    - [x] [/api/profiles/basic](#apiprofilesbasic) `GET`
+    - [x] [/api/profiles/basic/self](#apiprofilesbasicself) `GET`
+    - [x] [/api/profiles/basic/:user_id](#apiprofilesbasicuser_id) `GET`
     - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
     - [x] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
-    - [ ] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
+    - [ ] [/api/profiles/profile/self](#apiprofilesprofileself) `GET`
+    - [x] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
     - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `PUT`
+    - [ ] [/api/profiles/work/self](#apiprofilesworkself) `GET`
     - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
+    - [ ] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
     - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
 
 # API Description
@@ -150,6 +156,23 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
+### /api/entries/edit/:entry_id
+- HTTP method: `PUT`
+- Edit `user`'s memo about `friend` using the `entry` id
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+    ```js
+    {
+    
+    }
+    ```
+
 ## Friends List
 ### /api/friends/get
 - HTTP method: `GET`
@@ -236,9 +259,9 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     ```
 
 ## User Profile
-### /api/profiles/:user_id
+### /api/profiles/self
 - HTTP method: `GET`
-- Return all of a `user`'s profile information
+- Return all of own `user`'s profile information
 - Request
     - Header
         ```js
@@ -253,9 +276,47 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
-### /api/profiles/basic
+### /api/profiles/:user_id
 - HTTP method: `GET`
-- Return basic, private `profile` information about `user` 
+- Return all of another `user`'s profile information
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+    ```js
+    {
+    
+    }
+    ```
+
+### /api/profiles/basic/self
+- HTTP method: `GET`
+- Return basic, private `profile` information about own `user` 
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+    ```js
+    {
+    "id": 231
+    "last_name": "Belfort",
+    "first_name": "Jordan",
+    "email": "apitest@gmail.com",          
+    "phone_number": "01049182881"  
+    }
+    ```
+
+### /api/profiles/basic/:user_id
+- HTTP method: `GET`
+- Return basic, private `profile` information about another `user` 
 - Request
     - Header
         ```js
@@ -334,9 +395,9 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
-### /api/profiles/profile/:user_id
+### /api/profiles/profile/self
 - HTTP method: `GET`
-- Return `user`'s public `profile` information
+- Return own `user`'s public `profile` information
 - Request
     - Header
         ```js
@@ -345,6 +406,52 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         }
         ```
 - Response
+    ```js
+    {
+    "user_id": 13,
+    "gender": "female",
+    "birthday": null,
+    "profile_picture": null,
+    "high_school": "Centennial High School",
+    "university_name": "Korea University",
+    "university_major": "Computer Science",
+    "graduate_masters_name": null,
+    "graduate_masters_major": null,
+    "graduate_phd_name": null,
+    "graduate_phd_major": null,
+    "current_work_name": "Google",
+    "current_work_position": "Developer"
+    }
+    ```
+
+### /api/profiles/profile/:user_id
+- HTTP method: `GET`
+- Return another `user`'s public `profile` information
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+    ```js
+    {
+    "user_id": 13,
+    "gender": "female",
+    "birthday": null,
+    "profile_picture": null,
+    "high_school": "Centennial High School",
+    "university_name": "Korea University",
+    "university_major": "Computer Science",
+    "graduate_masters_name": null,
+    "graduate_masters_major": null,
+    "graduate_phd_name": null,
+    "graduate_phd_major": null,
+    "current_work_name": "Google",
+    "current_work_position": "Developer"
+    }
+    ```
 
 ### /api/profiles/profile/update
 - HTTP method: `PUT`
@@ -358,11 +465,41 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         ```
 - Response
 
-### /api/profiles/work/:user_id
+### /api/profiles/work/self
 - HTTP method: `GET`
-- Return `user`'s work history information
+- Return own `user`'s work history information
 - Request
     - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+
+### /api/profiles/work/:user_id
+- HTTP method: `GET`
+- Return another `user`'s work history information
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+
+### /api/profiles/work/add
+- HTTP method: `POST`
+- Add a new item to `user`'s work history
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+    - Parameters
         ```js
         {
         "authorization": "JWT token"
