@@ -6,9 +6,15 @@
 
 RESTful API for *acqua* 
 
-Server written in Node.js
+Server written in Node.js, database in MySQL
 
 Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
+
+# Table of Contents
+
+- [API Endpoints](##api-endpoints)
+- [API Description](##api-description)
+- [Database Schema](##database-schema)
 
 # API Endpoints
 
@@ -287,29 +293,40 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
             "graduate_masters_name": null,
             "graduate_masters_major": null,
             "graduate_phd_name": null,
-            "graduate_phd_major": null,
-            "current_work_name": "Twitter",
-            "current_work_position": "Developer"
+            "graduate_phd_major": null
         },
     "work_history": [
             {
-                "id": 97,
-                "user_id": 116,
-                "status": "current",
-                "company": "Twitter",
-                "position": "Developer",
-                "start_date": "2017-06-20T15:00:00.000Z",
-                "end_date": null
+            "id": 231,
+            "user_id": 116,
+            "status": "current",
+            "company": "Twitter",
+            "position": "Developer",
+            "start_date": "2017-06-20T15:00:00.000Z",
+            "end_date": null
             },
             {
-                "id": 182,
-                "user_id": 116,
-                "status": "past",
-                "company": "Samsung",
-                "position": "Intern",
-                "start_date": "2015-11-22T15:00:00.000Z",
-                "end_date": null
-            }
+            "id": 182,
+            "user_id": 116,
+            "status": "past",
+            "company": "Samsung",
+            "position": "Intern",
+            "start_date": "2015-11-22T15:00:00.000Z",
+            "end_date": null
+            },
+            ...
+        ]
+    "current_work": [
+            {
+            "id": 231,
+            "user_id": 16,
+            "status": "current",
+            "company": "Twitter",
+            "position": "Developer",
+            "start_date": "2017-06-20T15:00:00.000Z",
+            "end_date": null  
+            },
+            ...    
         ]
     }
     ```
@@ -342,29 +359,40 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
             "graduate_masters_name": null,
             "graduate_masters_major": null,
             "graduate_phd_name": null,
-            "graduate_phd_major": null,
-            "current_work_name": "Twitter",
-            "current_work_position": "Developer"
+            "graduate_phd_major": null
         },
     "work_history": [
             {
-                "id": 97,
-                "user_id": 116,
-                "status": "current",
-                "company": "Twitter",
-                "position": "Developer",
-                "start_date": "2017-06-20T15:00:00.000Z",
-                "end_date": null
+            "id": 231,
+            "user_id": 116,
+            "status": "current",
+            "company": "Twitter",
+            "position": "Developer",
+            "start_date": "2017-06-20T15:00:00.000Z",
+            "end_date": null
             },
             {
-                "id": 182,
-                "user_id": 116,
-                "status": "past",
-                "company": "Samsung",
-                "position": "Intern",
-                "start_date": "2015-11-22T15:00:00.000Z",
-                "end_date": null
-            }
+            "id": 182,
+            "user_id": 116,
+            "status": "past",
+            "company": "Samsung",
+            "position": "Intern",
+            "start_date": "2015-11-22T15:00:00.000Z",
+            "end_date": null
+            },
+            ...
+        ]
+    "current_work": [
+            {
+            "id": 231,
+            "user_id": 16,
+            "status": "current",
+            "company": "Twitter",
+            "position": "Developer",
+            "start_date": "2017-06-20T15:00:00.000Z",
+            "end_date": null  
+            },
+            ...    
         ]
     }
     ```
@@ -414,8 +442,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/basic/update
 - HTTP method: `PUT`
 - Update own `user`'s basic, private `profile` information, except for password
-- If a request parameter is an empty string, the item is not updated
-- If a request parameter contains a string, the item is updated to that string
+- For each request parameter, if the `update` parameter is `true`, the item is updated to `value`; if `false`, the item is not updated
+- `updatedItems` in the response contains only items that were updated
 - Request
     - Header
         ```js
@@ -426,10 +454,22 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     - Parameters
         ```js
         {
-        "last_name": "updated item or empty string",
-        "first_name": "updated item or empty string",
-        "email": "updated item or empty string",
-        "phone_number": "updated item or empty string"
+        "last_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "first_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "email": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "phone_number": {
+        	"update": true or false,
+        	"value": "updated value"
+        	}
         }
         ```
 - Response
@@ -494,9 +534,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     "graduate_masters_name": null,
     "graduate_masters_major": null,
     "graduate_phd_name": null,
-    "graduate_phd_major": null,
-    "current_work_name": "Google",
-    "current_work_position": "Developer"
+    "graduate_phd_major": null
     }
     ```
 
@@ -523,16 +561,14 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     "graduate_masters_name": null,
     "graduate_masters_major": null,
     "graduate_phd_name": null,
-    "graduate_phd_major": null,
-    "current_work_name": "Google",
-    "current_work_position": "Developer"
+    "graduate_phd_major": null
     }
     ```
 
 ### /api/profiles/profile/update
 - HTTP method: `PUT`
-- Update own `user`'s public `profile` information except for `current_work` information
-- Items that are not to be updated can either be `null` or empty string in the parameters
+- Update own `user`'s public `profile` information
+- For each request parameter, if the `update` parameter is `true`, the item is updated to `value`; if `false`, the item is not updated
 - `updatedItems` in the response contains only items that were updated
 - Request
     - Header
@@ -544,16 +580,46 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     - Parameters
         ```js
         {
-        "gender": "male or female / null || ''",
-        "birthday": "date of birth yyyy-mm-dd / null || ''",
-        "profile_picture": "path to image / null || ''",
-        "high_school": "high school name / null || ''",
-        "university_name": "university name / null || ''",
-        "university_major": "university major / null || ''",
-        "graduate_masters_name": "graduate school name (masters) / null || ''",
-        "graduate_masters_major": "masters major / null || ''",
-        "graduate_phd_name": "graduate school name (phd) / null || ''",
-        "graduate_phd_major": "phd major / null || ''"
+        "gender": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "birthday": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "profile_picture": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "high_school": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "university_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "university_major": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "graduate_masters_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "graduate_masters_major": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "graduate_phd_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "graduate_phd_major": {
+        	"update": true or false,
+        	"value": "updated value"
+        	}
         }
         ```
 - Response
@@ -588,25 +654,39 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     [  
-      {
-      "id": 231,
-      "user_id": 16,
-      "status": "current",
-      "company": "Google",
-      "position": "Developer",
-      "start_date": "2017-06-20T15:00:00.000Z",
-      "end_date": null
-      },
-      {
-      "id": 320,
-      "user_id": 16,
-      "status": "past",
-      "company": "Samsung",
-      "position": "Intern",
-      "start_date": "2015-11-22T15:00:00.000Z",
-      "end_date": null
-      },
-      ...
+      "work_history": [
+          {
+          "id": 231,
+          "user_id": 16,
+          "status": "current",
+          "company": "Google",
+          "position": "Developer",
+          "start_date": "2017-06-20T15:00:00.000Z",
+          "end_date": null
+          },
+          {
+          "id": 320,
+          "user_id": 16,
+          "status": "past",
+          "company": "Samsung",
+          "position": "Intern",
+          "start_date": "2015-11-22T15:00:00.000Z",
+          "end_date": null
+          },
+          ...
+        ],
+      "current_work": [
+          {
+          "id": 231,
+          "user_id": 16,
+          "status": "current",
+          "company": "Google",
+          "position": "Developer",
+          "start_date": "2017-06-20T15:00:00.000Z",
+          "end_date": null  
+          },
+          ...    
+        ]
     ]
     ```
 
@@ -623,27 +703,41 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     [  
-      {
-      "id": 231,
-      "user_id": 16,
-      "status": "current",
-      "company": "Google",
-      "position": "Developer",
-      "start_date": "2017-06-20T15:00:00.000Z",
-      "end_date": null
-      },
-      {
-      "id": 320,
-      "user_id": 16,
-      "status": "past",
-      "company": "Samsung",
-      "position": "Intern",
-      "start_date": "2015-11-22T15:00:00.000Z",
-      "end_date": null
-      },
-      ...
+      "work_history": [
+          {
+          "id": 231,
+          "user_id": 16,
+          "status": "current",
+          "company": "Google",
+          "position": "Developer",
+          "start_date": "2017-06-20T15:00:00.000Z",
+          "end_date": null
+          },
+          {
+          "id": 320,
+          "user_id": 16,
+          "status": "past",
+          "company": "Samsung",
+          "position": "Intern",
+          "start_date": "2015-11-22T15:00:00.000Z",
+          "end_date": null
+          },
+          ...
+        ],
+      "current_work": [
+          {
+          "id": 231,
+          "user_id": 16,
+          "status": "current",
+          "company": "Google",
+          "position": "Developer",
+          "start_date": "2017-06-20T15:00:00.000Z",
+          "end_date": null  
+          },
+          ...    
+        ]
     ]
-    ```   
+    ```
 
 ### /api/profiles/work/add
 - HTTP method: `POST`
@@ -674,3 +768,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         }
         ```
 - Response
+
+# Database Schema
+
+[Database Schema](./reference/schema.sql)

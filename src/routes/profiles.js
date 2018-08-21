@@ -16,16 +16,22 @@ router.get('/self', requireAuth, (req, res) => {
     const user_id = req.user.id;
 
     const query_select_all_profile_info =
-        "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number, profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major, profiles.current_work_name, profiles.current_work_position FROM users INNER JOIN profiles ON users.id = profiles.user_id WHERE id = ?";
+        "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number, profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major FROM users INNER JOIN profiles ON users.id = profiles.user_id WHERE id = ?";
 
     db.query(query_select_all_profile_info, user_id, (err, results) => {
         if (err) return res.send(err);
         const complete_profile = JSON.parse(JSON.stringify(results))[0];
 
         db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
-            if(err) return res.send(err);
+            if (err) return res.send(err);
             const work_history = JSON.parse(JSON.stringify(results));
-            res.send({complete_profile, work_history});
+
+            db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+                if (err) return res.send(err);
+                const current_work = JSON.parse(JSON.stringify(results));
+
+                res.json({complete_profile, work_history, current_work});
+            });
         });
     });
 });
@@ -35,16 +41,22 @@ router.get('/:user_id', requireAuth, (req, res) => {
     const {user_id} = req.params;
 
     const query_select_all_profile_info =
-        "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number, profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major, profiles.current_work_name, profiles.current_work_position FROM users INNER JOIN profiles ON users.id = profiles.user_id WHERE id = ?";
+        "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number, profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major FROM users INNER JOIN profiles ON users.id = profiles.user_id WHERE id = ?";
 
     db.query(query_select_all_profile_info, user_id, (err, results) => {
         if (err) return res.send(err);
         const complete_profile = JSON.parse(JSON.stringify(results))[0];
 
         db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
-            if(err) return res.send(err);
+            if (err) return res.send(err);
             const work_history = JSON.parse(JSON.stringify(results));
-            res.send({complete_profile, work_history});
+
+            db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+                if (err) return res.send(err);
+                const current_work = JSON.parse(JSON.stringify(results));
+
+                res.json({complete_profile, work_history, current_work});
+            });
         });
     });
 });
@@ -74,13 +86,9 @@ router.get('/basic/:user_id', requireAuth, (req, res) => {
 //Update the basic profile information about user (oneself) except for password
 router.put('/basic/update', requireAuth, (req, res) => {
     const user_id = req.user.id;
-    const {last_name, first_name, email, phone_number} = req.body;
-
-    //Object with possible update candidates, whose values may or may not be empty
-    const updateCandidates = {last_name, first_name, email, phone_number};
 
     //Create an object with only items that are neither empty nor null, i.e. desired to be updated
-    const updateItems = _.pickBy(updateCandidates, (v) => v !== '' && v !== null);
+    const updateItems = _.mapValues(_.pickBy(req.body, (v) => v.update === true), (v) => v.value);
 
     db.query("UPDATE users SET ? WHERE id = ?", [updateItems, user_id], (err, result) => {
         if (err) return res.send(err);
@@ -141,16 +149,12 @@ router.get('/profile/:user_id', requireAuth, (req, res) => {
     });
 });
 
-//Update own user's profile information except for current work information
+//Update own user's profile information
 router.put('/profile/update', requireAuth, (req, res) => {
     const user_id = req.user.id;
-    const {gender, birthday, profile_picture, high_school, university_name, university_major, graduate_masters_name, graduate_masters_major, graduate_phd_name, graduate_phd_major} = req.body;
-
-    //Object with possible update candidates, whose values may or may not be empty
-    const updateCandidates = {gender, birthday, profile_picture, high_school, university_name, university_major, graduate_masters_name, graduate_masters_major, graduate_phd_name, graduate_phd_major};
 
     //Create an object with only items that are neither empty nor null, i.e. desired to be updated
-    const updateItems = _.pickBy(updateCandidates, (v) => v !== '' && v !== null);
+    const updateItems = _.mapValues(_.pickBy(req.body, (v) => v.update === true), (v) => v.value);
 
     db.query("UPDATE profiles SET ? WHERE user_id = ?", [updateItems, user_id], (err, result) => {
         if (err) return res.send(err);
@@ -170,7 +174,13 @@ router.get('/work/self', requireAuth, (req, res) => {
     db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
         if (err) return res.send(err);
         const work_history = JSON.parse(JSON.stringify(results));
-        res.json(work_history);
+
+        db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+            if (err) return res.send(err);
+            const current_work = JSON.parse(JSON.stringify(results));
+
+            res.json({work_history, current_work});
+        });
     });
 });
 
@@ -181,12 +191,43 @@ router.get('/work/:user_id', requireAuth, (req, res) => {
     db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
         if (err) return res.send(err);
         const work_history = JSON.parse(JSON.stringify(results));
-        res.json(work_history);
+
+        db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+            if (err) return res.send(err);
+            const current_work = JSON.parse(JSON.stringify(results));
+
+            res.json({work_history, current_work});
+        });
     });
 });
 
 //Add an item to user's work history
 router.post('/work/add', requireAuth, (req, res) => {
+    const user_id = req.user.id;
+    const {status, company, position, start_date, end_date} = req.body;
+    const postCandidates = {user_id, status, company, position, start_date, end_date};
+
+    let toPost;
+    if (end_date === '' || end_date === null) {
+        toPost = _.omit(postCandidates, ['end_date']);
+    } else {
+        toPost = postCandidates;
+    }
+
+    //Begin transaction for inserting a work history item
+    // db.beginTransaction((err) => {
+    //     if (err) return res.send(err);
+    //
+    //     db.query("INSERT INTO works SET ?", [toPost], (err, result) => {
+    //         if (err) {
+    //             db.rollback(() => {
+    //                 return res.send(err);
+    //             });
+    //         }
+    //
+    //
+    //     });
+    // });
 
 });
 

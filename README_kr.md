@@ -4,9 +4,15 @@
 
 *acqua*를 위한 RESTful API
 
-서버는 Node.js로 작성
+서버는 Node.js로 작성, 데이터베이스는 MySQL
 
 Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
+
+# 목차
+
+- [API Endpoints](##api-endpoints)
+- [API 설명](##api-설명)
+- [Database Schema](##database-schema)
 
 # API Endpoints
 
@@ -273,42 +279,53 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     {
     "complete_profile": {
             "id": 116,
-            "last_name": "이",
-            "first_name": "선우",
+            "last_name": "Lee",
+            "first_name": "Paul",
             "email": "paul@gmail.com",
             "phone_number": "01031887610",
             "gender": "male",
             "birthday": null,
             "profile_picture": null,
-            "high_school": "청담고등학교",
-            "university_name": "연세대학교",
-            "university_major": "산업공학",
+            "high_school": "Walnut High School",
+            "university_name": "Emory University",
+            "university_major": "Computer Science",
             "graduate_masters_name": null,
             "graduate_masters_major": null,
             "graduate_phd_name": null,
-            "graduate_phd_major": null,
-            "current_work_name": "트위터",
-            "current_work_position": "개발자"
+            "graduate_phd_major": null
         },
     "work_history": [
             {
-                "id": 97,
-                "user_id": 116,
-                "status": "current",
-                "company": "트위터",
-                "position": "개발자",
-                "start_date": "2017-06-20T15:00:00.000Z",
-                "end_date": null
+            "id": 231,
+            "user_id": 116,
+            "status": "current",
+            "company": "Twitter",
+            "position": "Developer",
+            "start_date": "2017-06-20T15:00:00.000Z",
+            "end_date": null
             },
             {
-                "id": 182,
-                "user_id": 116,
-                "status": "past",
-                "company": "삼성",
-                "position": "인턴",
-                "start_date": "2015-11-22T15:00:00.000Z",
-                "end_date": null
-            }
+            "id": 182,
+            "user_id": 116,
+            "status": "past",
+            "company": "Samsung",
+            "position": "Intern",
+            "start_date": "2015-11-22T15:00:00.000Z",
+            "end_date": null
+            },
+            ...
+        ]
+    "current_work": [
+            {
+            "id": 231,
+            "user_id": 116,
+            "status": "current",
+            "company": "Twitter",
+            "position": "Developer",
+            "start_date": "2017-06-20T15:00:00.000Z",
+            "end_date": null  
+            },
+            ...    
         ]
     }
     ```
@@ -328,42 +345,53 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     {
     "complete_profile": {
             "id": 116,
-            "last_name": "이",
-            "first_name": "선우",
+            "last_name": "Lee",
+            "first_name": "Paul",
             "email": "paul@gmail.com",
             "phone_number": "01031887610",
             "gender": "male",
             "birthday": null,
             "profile_picture": null,
-            "high_school": "청담고등학교",
-            "university_name": "연세대학교",
-            "university_major": "산업공학",
+            "high_school": "Walnut High School",
+            "university_name": "Emory University",
+            "university_major": "Computer Science",
             "graduate_masters_name": null,
             "graduate_masters_major": null,
             "graduate_phd_name": null,
-            "graduate_phd_major": null,
-            "current_work_name": "트위터",
-            "current_work_position": "개발자"
+            "graduate_phd_major": null
         },
     "work_history": [
             {
-                "id": 97,
-                "user_id": 116,
-                "status": "current",
-                "company": "트위터",
-                "position": "개발자",
-                "start_date": "2017-06-20T15:00:00.000Z",
-                "end_date": null
+            "id": 231,
+            "user_id": 116,
+            "status": "current",
+            "company": "Twitter",
+            "position": "Developer",
+            "start_date": "2017-06-20T15:00:00.000Z",
+            "end_date": null
             },
             {
-                "id": 182,
-                "user_id": 116,
-                "status": "past",
-                "company": "삼성",
-                "position": "인턴",
-                "start_date": "2015-11-22T15:00:00.000Z",
-                "end_date": null
-            }
+            "id": 182,
+            "user_id": 116,
+            "status": "past",
+            "company": "Samsung",
+            "position": "Intern",
+            "start_date": "2015-11-22T15:00:00.000Z",
+            "end_date": null
+            },
+            ...
+        ]
+    "current_work": [
+            {
+            "id": 231,
+            "user_id": 116,
+            "status": "current",
+            "company": "Twitter",
+            "position": "Developer",
+            "start_date": "2017-06-20T15:00:00.000Z",
+            "end_date": null  
+            },
+            ...    
         ]
     }
     ```
@@ -413,8 +441,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/basic/update
 - HTTP method: `PUT`
 - `user` 본인의 기본 개인정보 수정 (비밀번호 제외)
-- 만약 request parameter가 빈 문자열이면 해당 항목은 수정되지 않음
-- 만약 request parameter가 문자열을 포함하면 해당 항목은 그 문자열로 수정됨
+- 각 request parameter에 대해서, `update` parameter가 `true` 이면 해당 항목이 `value`로 수정되고, `false`이면 수정되지 않음
+- 응답 내 `updatedItems`는 수정된 항목들만 반환한다
 - Request
     - Header
         ```js
@@ -425,10 +453,22 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - Parameters
         ```js
         {
-        "last_name": "수정된 항목 혹은 빈 문자열",
-        "first_name": "수정된 항목 혹은 빈 문자열",
-        "email": "수정된 항목 혹은 빈 문자열",
-        "phone_number": "수정된 항목 혹은 빈 문자열"
+        "last_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "first_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "email": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "phone_number": {
+        	"update": true or false,
+        	"value": "updated value"
+        	}
         }
         ```
 - Response
@@ -493,9 +533,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     "graduate_masters_name": null,
     "graduate_masters_major": null,
     "graduate_phd_name": null,
-    "graduate_phd_major": null,
-    "current_work_name": "Google",
-    "current_work_position": "개발자"
+    "graduate_phd_major": null
     }
     ```
 
@@ -522,16 +560,14 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     "graduate_masters_name": null,
     "graduate_masters_major": null,
     "graduate_phd_name": null,
-    "graduate_phd_major": null,
-    "current_work_name": "Google",
-    "current_work_position": "개발자"
+    "graduate_phd_major": null
     }
     ```
 
 ### /api/profiles/profile/update
 - HTTP method: `PUT`
-- `user` 본인의 공개 `profile` 정보 수정 (`current_work` 정보 제외)
-- 수정되지 않을 항목들은 parameter에 `null`이나 빈 문자열로 넘겨준다 
+- `user` 본인의 공개 `profile` 정보 수정
+- 각 request parameter에 대해서, `update` parameter가 `true` 이면 해당 항목이 `value`로 수정되고, `false`이면 수정되지 않음 
 - 응답 내 `updatedItems`는 수정된 항목들만 반환한다
 - Request
     - Header
@@ -543,18 +579,49 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - Parameters
         ```js
         {
-        "gender": "male 혹은 female / null || ''",
-        "birthday": "생일 yyyy-mm-dd / null || ''",
-        "profile_picture": "이미지 파일 경로 / null || ''",
-        "high_school": "고등학교 이름 / null || ''",
-        "university_name": "학부 대학교 이름 / null || ''",
-        "university_major": "학부 전공 / null || ''",
-        "graduate_masters_name": "대학원 이름 (석사) / null || ''",
-        "graduate_masters_major": "석사 전공 / null || ''",
-        "graduate_phd_name": "대학원 이름 (박사) / null || ''",
-        "graduate_phd_major": "박사 전공 / null || ''"
+        "gender": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "birthday": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "profile_picture": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "high_school": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "university_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "university_major": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "graduate_masters_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "graduate_masters_major": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "graduate_phd_name": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "graduate_phd_major": {
+        	"update": true or false,
+        	"value": "updated value"
+        	}
         }
-        ```
+        ``` 
+        
 - Response
     ```js
     {
@@ -584,28 +651,41 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
-- Response
     ```js
     [  
-      {
-      "id": 231,
-      "user_id": 16,
-      "status": "current",
-      "company": "구글",
-      "position": "개발자",
-      "start_date": "2017-06-20T15:00:00.000Z",
-      "end_date": null
-      },
-      {
-      "id": 320,
-      "user_id": 16,
-      "status": "past",
-      "company": "삼성",
-      "position": "인턴",
-      "start_date": "2015-11-22T15:00:00.000Z",
-      "end_date": null
-      },
-      ...
+      "work_history": [
+          {
+          "id": 231,
+          "user_id": 16,
+          "status": "current",
+          "company": "Google",
+          "position": "Developer",
+          "start_date": "2017-06-20T15:00:00.000Z",
+          "end_date": null
+          },
+          {
+          "id": 320,
+          "user_id": 16,
+          "status": "past",
+          "company": "Samsung",
+          "position": "Intern",
+          "start_date": "2015-11-22T15:00:00.000Z",
+          "end_date": null
+          },
+          ...
+        ],
+      "current_work": [
+          {
+          "id": 231,
+          "user_id": 16,
+          "status": "current",
+          "company": "Google",
+          "position": "Developer",
+          "start_date": "2017-06-20T15:00:00.000Z",
+          "end_date": null  
+          },
+          ...    
+        ]
     ]
     ```
 
@@ -622,25 +702,39 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     [  
-      {
-      "id": 231,
-      "user_id": 16,
-      "status": "current",
-      "company": "구글",
-      "position": "개발자",
-      "start_date": "2017-06-20T15:00:00.000Z",
-      "end_date": null
-      },
-      {
-      "id": 320,
-      "user_id": 16,
-      "status": "past",
-      "company": "삼성",
-      "position": "인턴",
-      "start_date": "2015-11-22T15:00:00.000Z",
-      "end_date": null
-      },
-      ...
+      "work_history": [
+          {
+          "id": 231,
+          "user_id": 16,
+          "status": "current",
+          "company": "Google",
+          "position": "Developer",
+          "start_date": "2017-06-20T15:00:00.000Z",
+          "end_date": null
+          },
+          {
+          "id": 320,
+          "user_id": 16,
+          "status": "past",
+          "company": "Samsung",
+          "position": "Intern",
+          "start_date": "2015-11-22T15:00:00.000Z",
+          "end_date": null
+          },
+          ...
+        ],
+      "current_work": [
+          {
+          "id": 231,
+          "user_id": 16,
+          "status": "current",
+          "company": "Google",
+          "position": "Developer",
+          "start_date": "2017-06-20T15:00:00.000Z",
+          "end_date": null  
+          },
+          ...    
+        ]
     ]
     ```
 
@@ -673,3 +767,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         }
         ```
 - Response
+
+# Database Schema
+
+[Database Schema](./reference/schema.sql)

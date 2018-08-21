@@ -48,12 +48,13 @@ exports.signup = function (req, res, next) {
         exports.hashPassword(password, (err, hash) => {
             password = hash;
 
-            //Insert user into users table
+            //Begin transaction for creating a user
             db.beginTransaction((err) => {
                 if (err) throw err;
 
                 const inserts = {email, password, first_name, last_name, phone_number};
 
+                //Insert user into users table
                 db.query("INSERT INTO users SET ?", inserts, (err, result) => {
                     if (err) {
                         db.rollback(() => {
