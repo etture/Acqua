@@ -204,31 +204,30 @@ router.get('/work/:user_id', requireAuth, (req, res) => {
 //Add an item to user's work history
 router.post('/work/add', requireAuth, (req, res) => {
     const user_id = req.user.id;
-    const {status, company, position, start_date, end_date} = req.body;
-    const postCandidates = {user_id, status, company, position, start_date, end_date};
-
+    const job = req.body;
     let toPost;
-    if (end_date === '' || end_date === null) {
-        toPost = _.omit(postCandidates, ['end_date']);
+    if (job.end_date.ended === true) {
+        toPost = job;
+        toPost.end_date = job.end_date.value;
+        toPost.status = 'past';
     } else {
-        toPost = postCandidates;
+        toPost = job;
+        toPost.end_date = null;
+        toPost.status = 'current';
     }
 
-    //Begin transaction for inserting a work history item
-    // db.beginTransaction((err) => {
-    //     if (err) return res.send(err);
-    //
-    //     db.query("INSERT INTO works SET ?", [toPost], (err, result) => {
-    //         if (err) {
-    //             db.rollback(() => {
-    //                 return res.send(err);
-    //             });
-    //         }
-    //
-    //
-    //     });
-    // });
+    db.query("INSERT INTO works SET user_id = ?, ?", [user_id, toPost], (err, result) => {
+        if (err) return res.send(err);
 
+        res.send({
+            isSuccess: true,
+            work: {
+                id: result.insertId,
+                user_id,
+                ...toPost
+            }
+        });
+    });
 });
 
 //Update one of user's work history items

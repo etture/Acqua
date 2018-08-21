@@ -742,6 +742,9 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/work/add
 - HTTP method: `POST`
 - Add a new item to `user`'s `work` history
+- `company`, `position`, `start_date` are required parameters
+- `end_date` can be included if `work` has ended, in which case the `ended` parameter should be set to `true` and `value` provided. `status` is set to `past` automatically.
+- If `work` is ongoing, set `ended` to `false` and leave `value` empty. `status` is set to `current` automatically.
 - Request
     - Header
         ```js
@@ -752,10 +755,30 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     - Parameters
         ```js
         {
-        
+        "company": "company name",
+        "position": "job position",
+        "start_date": "starting date",
+        "end_date": {
+        	"ended": true or false,
+        	"value": "ending date if work ended"
+        	}
         }
         ```
 - Response
+    ```js
+    {
+    "isSuccess": true,
+    "work": {  
+        "id": 118,
+        "user_id": 165,
+        "company": "JP Morgan",
+        "position": "Financial Analyst",
+        "start_date": "2016-08-01",
+        "end_date": "2018-06-01",
+        "status": "past"     
+        }
+    }
+    ```
 
 ### /api/profiles/work/update
 - HTTP method: `PUT`

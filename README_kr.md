@@ -39,7 +39,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/profiles/profile/update](#apiprofilesprofileupdate) `PUT`
     - [x] [/api/profiles/work/self](#apiprofilesworkself) `GET`
     - [x] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
-    - [ ] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
+    - [x] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
     - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
 
 # API 설명
@@ -745,16 +745,36 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - Header
         ```js
         {
-        "authorization": "JWT token"
+        "authorization": "JWT 토큰"
         }
         ```
     - Parameters
         ```js
         {
-        
+        "company": "회사명",
+        "position": "직급 혹은 직책",
+        "start_date": "시작일",
+        "end_date": {
+        	"ended": true or false,
+        	"value": "현재 직업이 아닐 시 종료일"
+        	}
         }
         ```
 - Response
+    ```js
+    {
+    "isSuccess": true,
+    "work": {  
+        "id": 118,
+        "user_id": 165,
+        "company": "JP Morgan",
+        "position": "Financial Analyst",
+        "start_date": "2016-08-01",
+        "end_date": "2018-06-01",
+        "status": "past"     
+        }
+    }
+    ```
 
 ### /api/profiles/work/update
 - HTTP method: `PUT`
