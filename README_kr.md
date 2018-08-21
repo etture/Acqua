@@ -22,11 +22,11 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - [사용자 입력](#사용자-입력)
     - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id) `GET`
     - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id) `POST`
-    - [ ] [/api/entries/edit/:entry_id](#apientriesputentry_id) `PUT`
+    - [ ] [/api/entries/edit/:entry_id](#apientrieseditentry_id) `PUT`
 - [친구 리스트](#친구-리스트)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
-    - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
+    - [x] [/api/friends/nickname/:friend_id](#apifriendsnicknamefriend_id) `PUT`
 - [사용자 프로필](#사용자-프로필)
     - [x] [/api/profiles/self](#apiprofilesself) `GET`
     - [x] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
@@ -49,7 +49,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - `user`의 회원가입을 위한 endpoint
 - 성공 시 데이터베이스 내 `users` 테이블에 parameter 저장되고 JWT 토큰이 반환
 - Request
-    - Parameters
+    - Body
         ```js
         {
 	    "email": "이메일 주소",
@@ -79,7 +79,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - `user`의 로그인을 위한 endpoint
 - 성공 시 JWT 토큰이 반환
 - Request
-    - Parameters
+    - Body
         ```js
         {
         "email": "이메일 주소",
@@ -100,15 +100,14 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - `user`가 다른 `friend`에 대해서 적은 메모 `entry` 목록을 반환
 - `user`는 header에 포함된 JWT 토큰으로 식별
 - Request
-    - Sample Dummy Request 정보
-        - `user_id`: 2
-        - `friend_id`: 8
     - Header
         ```js
         {
         "authorization": "JWT 토큰"
         }
         ```
+    - URL
+        - `friend_id` (`entries` 테이블 `friend_id` 열 :left_right_arrow: `users` 테이블 `id` 열)
 - Response
     ```js
     [
@@ -136,21 +135,20 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - HTTP method: `POST`
 - `user`가 다른 `friend`에 대해 적은 메모 `entry`를 데이터베이스에 저장
 - Request
-    - Sample Dummy Request 정보
-        - `user_id`: 2
-        - `friend_id`: 8
     - Header
         ```js
         {
         "authorization": "JWT 토큰"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "memo": "사용자가 친구에 대해서 적은 메모"
         }
         ```
+    - URL
+        - `friend_id` (`entries` 테이블 `friend_id` 열 :left_right_arrow: `users` 테이블 `id` 열)
 - Response
     ```js
     {  
@@ -171,6 +169,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - URL
+        - `entry_id` (`entries` 테이블 `id` 열)
 - Response
     ```js
     {
@@ -220,7 +220,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "friend_id": "친구 id"
@@ -234,26 +234,25 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
-### /api/friends/nickname
+### /api/friends/nickname/:friend_id
 - HTTP method: `PUT`
 - `user`에게 보여질 `friend`의 별명을 수정
 - Request
-    - Sample Dummy Request 정보
-        - `friend_id`: 7
-        - `nickname`: "Wolverine"
     - Header
         ```js
         {
         "authorization": "JWT 토큰"    
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "friend_id": "친구 id",
         "nickname": "새로운 별명"
         }
         ```
+    - URL
+        - `friend_id` (`friends` 테이블 `friend_id` 열 :left_right_arrow: `users` 테이블 `id` 열)
 - Response
     ```js
     {
@@ -340,6 +339,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - URL
+        - `user_id` (`users` 테이블 `id` 열 :left_right_arrow: `profiles` 테이블 `user_id` 열 :left_right_arrow: `works` 테이블 `user_id` 열)
 - Response
     ```js
     {
@@ -427,6 +428,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - URL
+        - `user_id` (`users` 테이블 `id` 열)
 - Response
     ```js
     {
@@ -450,7 +453,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "last_name": {
@@ -496,7 +499,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "old_password": "기존 비밀번호",
@@ -547,6 +550,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - URL
+        - `user_id` (`profiles` 테이블 `user_id` 열 :left_right_arrow: `users` 테이블 `id` 열)
 - Response
     ```js
     {
@@ -576,7 +581,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "gender": {
@@ -621,7 +626,6 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         	}
         }
         ``` 
-        
 - Response
     ```js
     {
@@ -699,6 +703,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - URL
+        - `user_id` (`works` 테이블 `user_id` 열 :left_right_arrow: `users` 테이블 `id` 열)
 - Response
     ```js
     [  
@@ -751,7 +757,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "company": "회사명",
@@ -782,7 +788,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/work/update/:item_id
 - HTTP method: `PUT`
 - `user` 본인의 `work` 직업 이력 항목 수정
-- `start_date` 혹은 `end_date`가 수정될 때 (혹은 둘 다) `start_date`가 `end_date`보다 늦게 오지 않는지 확인되어야 한다. API상에서 여러 조건을 확인하지만, API로 적절한 parameter가 전달됐는지에 대한 완전한 확인은 프론트엔드에서 구현해야 한다.
+- `start_date` 혹은 `end_date`가 수정될 때 (혹은 둘 다) `start_date`가 `end_date`보다 늦게 오지 않아야 한다. 조건 불충족 시 오류 메시지 반환.
 - 응답에는 수정된 항목만 표출된다
 - Request
     - Header
@@ -791,7 +797,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "company": {
@@ -812,6 +818,8 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         	}
         }
         ```
+    - URL
+        - `item_id` (`works` 테이블 `id` 열)
 - Response
     ```js
     {

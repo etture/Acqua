@@ -24,11 +24,11 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - [User Entries](#user-entries)
     - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id) `GET`
     - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id) `POST`
-    - [ ] [/api/entries/edit/:entry_id](#apientriesputentry_id) `PUT`    
+    - [ ] [/api/entries/edit/:entry_id](#apientrieseditentry_id) `PUT`    
 - [Friends List](#friends-list)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
-    - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
+    - [x] [/api/friends/nickname/:friend_id](#apifriendsnicknamefriend_id) `PUT`
 - [User Profile](#user-profile)
     - [x] [/api/profiles/self](#apiprofilesself) `GET`
     - [x] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
@@ -51,7 +51,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - Endpoint for `user` to sign up
 - On success, parameters are saved to the `users` table in the database and a JWT token is returned
 - Request
-    - Parameters
+    - Body
         ```js
         {
 	    "email": "email address",
@@ -81,7 +81,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - Endpoint for `user` to sign in
 - On success, a JWT token is returned
 - Request
-    - Parameters
+    - Body
         ```js
         {
         "email": "email address",
@@ -101,15 +101,14 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - Return a list of memo `entries` written by `user` about other `friends`
 - `user` identified by JWT token provided in the header
 - Request
-    - Sample Dummy Request Info
-        - `user_id`: 2
-        - `friend_id`: 8
     - Header
         ```js
         {
         "authorization": "JWT token"
         }
         ```
+    - URL
+        - `friend_id` (`entries` table `friend_id` column :left_right_arrow: `users` table `id` column)
 - Response
     ```js
     [  
@@ -146,12 +145,14 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "memo": "memo about a friend"
         }
         ```
+    - URL
+        - `friend_id` (`entries` table `friend_id` column :left_right_arrow: `users` table `id` column)
 - Response
     ```js
     {  
@@ -172,6 +173,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
+    - URL
+        - `entry_id` (`entries` table `id` column)
 - Response
     ```js
     {
@@ -221,7 +224,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "friend_id": "friend_id"
@@ -235,26 +238,24 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
-### /api/friends/nickname
+### /api/friends/nickname/:friend_id
 - HTTP method: `PUT`
 - Edit `friend`'s nickname to be displayed to `user`
 - Request
-    - Sample Dummy Request Info
-        - `friend_id`: 7
-        - `nickname`: "Wolverine"
     - Header
         ```js
         {
         "authorization": "JWT token"    
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
-        "friend_id": "friend_id",
         "nickname": "new nickname"
         }
         ```
+    - URL
+        - `friend_id` (`friends` table `friend_id` column :left_right_arrow: `users` table `id` column)
 - Response
     ```js
     {
@@ -341,6 +342,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
+    - URL
+        - `user_id` (`users` table `id` column :left_right_arrow: `profiles` table `user_id` column :left_right_arrow: `works` table `user_id` column)
 - Response
     ```js
     {
@@ -428,6 +431,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
+    - URL
+        - `user_id` (`users` table `id` column)
 - Response
     ```js
     {
@@ -451,7 +456,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "last_name": {
@@ -497,7 +502,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "old_password": "original password",
@@ -548,6 +553,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
+    - URL
+        - `user_id` (`profiles` table `user_id` column :left_right_arrow: `users` table `id` column)
 - Response
     ```js
     {
@@ -577,7 +584,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "gender": {
@@ -700,6 +707,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
+    - URL
+        - `user_id` (`works` table `user_id` column :left_right_arrow: `users` table `id` column)
 - Response
     ```js
     [  
@@ -752,7 +761,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "company": "company name",
@@ -783,7 +792,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/work/update/:item_id
 - HTTP method: `PUT`
 - Update own `user`'s `work` history information
-- Whenever both of, or either one of, `start_date` and `end_date` are updated, it must be checked that `start_date` is not later than `end_date`. While some checks are made by the API, full comparisons must be implemented on the front-end to confirm that appropriate parameters have been passed to the API.
+- Whenever both of, or either one of, `start_date` and `end_date` are updated, it must be checked that `start_date` is not later than `end_date`. If the conditions are not met, an error message is returned.
 - Only items that have been updated are shown in the response
 - Request
     - Header
@@ -792,7 +801,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
-    - Parameters
+    - Body
         ```js
         {
         "company": {
@@ -813,6 +822,8 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         	}
         }
         ```
+    - URL
+        - `item_id` (`works` table `id` column)
 - Response
     ```js
     {

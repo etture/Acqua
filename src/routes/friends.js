@@ -42,9 +42,10 @@ router.post('/add', requireAuth, (req, res) => {
 });
 
 //Edit friend's nickname to be displayed to user
-router.put('/nickname', requireAuth, (req, res) => {
-    const {nickname, friend_id} = req.body;
+router.put('/nickname/:friend_id', requireAuth, (req, res) => {
+    const {nickname} = req.body;
     const user_id = req.user.id;
+    const {friend_id} = req.params;
 
     db.query("UPDATE friends SET nickname = ? WHERE user_id = ? AND friend_id = ?", [nickname, user_id, friend_id], (err, result) => {
         if(err) return res.send(err);

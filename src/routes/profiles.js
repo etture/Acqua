@@ -241,67 +241,72 @@ router.put('/work/update/:item_id', requireAuth, (req, res) => {
     //Create an object with only items that are neither empty nor null, i.e. desired to be updated
     const updateItems = _.mapValues(_.pickBy(req.body, (v) => v.update === true), (v) => v.value);
 
-    //If the end_date property is updated in any way
-    if (updateItems.hasOwnProperty('end_date')) {
-        const {end_date} = updateItems;
-        if (updateItems.hasOwnProperty('start_date')) {
-            const {start_date} = updateItems;
+    db.query("SELECT * FROM works WHERE id = ?", item_id, (err, results) => {
+        if (err) return res.send(err);
 
-            //If date doesn't match the pattern, then reject the entire request
-            if (!/(\d{4})-(\d{2})-(\d{2})/.test(start_date)) {
-                return res.status(400).send({
-                    errorMessage: "date must match yyyy-mm-dd"
-                });
-            }
+        const {user_id: owner_id, start_date: original_start_date, end_date: original_end_date} = JSON.parse(JSON.stringify(results))[0];
 
-            //Checking that new start_date is not later than new end_date, but this should be implemented on the front-end
-            if (start_date >= end_date) {
-                return res.status(400).send({
-                    errorMessage: "start_date cannot be later than end_date"
-                });
-            }
+        //Confirm that user is accessing his own work item
+        if (user_id !== owner_id) {
+            return res.status(400).send({
+                errorMessage: "cannot modify other user's item"
+            });
         }
 
-        db.query("SELECT end_date FROM works WHERE id = ?", item_id, (err, results) => {
-            if (err) return res.send(err);
-            const original_end_date = JSON.parse(JSON.stringify(results))[0].end_date;
-            const new_end_date = updateItems.end_date;
-            console.log('original end date:', original_end_date);
+        //If the end_date property is updated in any way
+        if (updateItems.hasOwnProperty('end_date')) {
+            const {end_date} = updateItems;
 
-            //Checking for date format, but this should be implemented on the front-end
-            if (original_end_date === null) {
-                console.log('original end date is null!');
-                //If original end_date is null and new end_date is not null, then the work has ended and status must change to 'past'
-                if (new_end_date !== null) {
-                    console.log('new end date is NOT null!');
-                    //If date doesn't match the pattern, then reject the entire request
-                    if (!/(\d{4})-(\d{2})-(\d{2})/.test(new_end_date)) {
-                        return res.status(400).send({
-                            errorMessage: "date must match yyyy-mm-dd"
-                        });
-                    }
-                    console.log('new end date format is correcto');
-                    updateItems.status = 'past';
-                }
-                //If new end_date is also null, then a weird request... just let it through
-            } else {
-                //If original end_date is a valid date but new end_date is null, then the work has not ended and is current; status must change to 'current'
-                if (new_end_date === null) {
-
-                    updateItems.status = 'current';
-
-                } else if (!/(\d{4})-(\d{2})-(\d{2})/.test(new_end_date)) {
+            if (end_date !== null) {
+                //If new end_date doesn't match the pattern, then reject the entire request
+                if (!/(\d{4})-(\d{2})-(\d{2})/.test(end_date)) {
                     return res.status(400).send({
                         errorMessage: "date must match yyyy-mm-dd"
                     });
                 }
+
+                if (updateItems.hasOwnProperty('start_date')) {
+                    const {start_date} = updateItems;
+
+                    //If new start_date doesn't match the pattern, then reject the entire request
+                    if (!/(\d{4})-(\d{2})-(\d{2})/.test(start_date)) {
+                        return res.status(400).send({
+                            errorMessage: "date must match yyyy-mm-dd"
+                        });
+                    }
+
+                    //Checking that new start_date is not later than new end_date
+                    if (start_date >= end_date) {
+                        return res.status(400).send({
+                            errorMessage: "start_date cannot be later than end_date"
+                        });
+                    }
+                } else {
+                    //Checking that original start_date is not later than new end_date
+                    if (original_start_date >= end_date) {
+                        return res.status(400).send({
+                            errorMessage: "start_date cannot be later than end_date"
+                        });
+                    }
+                }
+
+                //If original end_date is null and new end_date is not null, then the work has ended and status must change to 'past'
+                if (original_end_date === null) {
+                    updateItems.status = 'past';
+                }
                 //If both original and new end_date are valid dates, then leave status as 'past'
+            } else {
+
+                //If original end_date is a valid date but new end_date is null, then the work has not ended and is current; status must change to 'current'
+                if (original_end_date !== null){
+                    updateItems.status = 'current';
+                }
+                //If both original and new end_date are null, then leave status as 'current'
             }
 
             db.query("UPDATE works SET ? WHERE id = ?", [updateItems, item_id], (err, result) => {
                 if (err) return res.send(err);
-
-                res.send({
+                return res.send({
                     isSuccess: true,
                     work_updated: {
                         id: item_id,
@@ -310,24 +315,20 @@ router.put('/work/update/:item_id', requireAuth, (req, res) => {
                     }
                 });
             });
-        });
-    } else {
-        //Case where end_date is not updated
-        if (updateItems.hasOwnProperty('start_date')) {
-            const {start_date} = updateItems;
 
-            //If date doesn't match the pattern, then reject the entire request
-            if (!/(\d{4})-(\d{2})-(\d{2})/.test(start_date)) {
-                return res.status(400).send({
-                    errorMessage: "date must match yyyy-mm-dd"
-                });
-            }
+        } else {
+            //Case where end_date is not updated
+            if (updateItems.hasOwnProperty('start_date')) {
+                const {start_date} = updateItems;
 
-            db.query("SELECT end_date FROM works WHERE id = ?", item_id, (err, results) => {
-                if (err) return res.send(err);
-                const original_end_date = JSON.parse(JSON.stringify(results))[0];
+                //If date doesn't match the pattern, then reject the entire request
+                if (!/(\d{4})-(\d{2})-(\d{2})/.test(start_date)) {
+                    return res.status(400).send({
+                        errorMessage: "date must match yyyy-mm-dd"
+                    });
+                }
 
-                //Checking whether new start_date is later than original end_date, but this should be implemented on the front-end
+                //Checking whether new start_date is later than original end_date
                 if (original_end_date !== null) {
                     if (start_date >= original_end_date) {
                         return res.status(400).send({
@@ -338,8 +339,7 @@ router.put('/work/update/:item_id', requireAuth, (req, res) => {
 
                 db.query("UPDATE works SET ? WHERE id = ?", [updateItems, item_id], (err, result) => {
                     if (err) return res.send(err);
-
-                    res.send({
+                    return res.send({
                         isSuccess: true,
                         work_updated: {
                             id: item_id,
@@ -348,9 +348,30 @@ router.put('/work/update/:item_id', requireAuth, (req, res) => {
                         }
                     });
                 });
+            }
+        }
+
+        //Neither start_date nor end_date are updated
+        //Run update query if there is at least one item to update
+        if (!_.isEmpty(updateItems)) {
+            db.query("UPDATE works SET ? WHERE id = ?", [updateItems, item_id], (err, result) => {
+                if (err) return res.send(err);
+                res.send({
+                    isSuccess: true,
+                    work_updated: {
+                        id: item_id,
+                        user_id,
+                        ...updateItems
+                    }
+                });
+            });
+        } else {
+            //No items are updated, but a request has been sent, so give an error message
+            res.send({
+                errorMessage: 'no item to be updated'
             });
         }
-    }
+    });
 });
 
 module.exports = router;
