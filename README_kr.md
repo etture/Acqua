@@ -40,7 +40,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/profiles/work/self](#apiprofilesworkself) `GET`
     - [x] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
     - [x] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
-    - [x] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
+    - [x] [/api/profiles/work/update/:item_id](#apiprofilesworkupdateitem_id) `PUT`
 
 # API 설명
 ## 사용자 인증
@@ -779,7 +779,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
-### /api/profiles/work/update
+### /api/profiles/work/update/:item_id
 - HTTP method: `PUT`
 - `user` 본인의 `work` 직업 이력 항목 수정
 - `start_date` 혹은 `end_date`가 수정될 때 (혹은 둘 다) `start_date`가 `end_date`보다 늦게 오지 않는지 확인되어야 한다. API상에서 여러 조건을 확인하지만, API로 적절한 parameter가 전달됐는지에 대한 완전한 확인은 프론트엔드에서 구현해야 한다.

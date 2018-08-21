@@ -42,7 +42,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/profiles/work/self](#apiprofilesworkself) `GET`
     - [x] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
     - [x] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
-    - [x] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
+    - [x] [/api/profiles/work/update/:item_id](#apiprofilesworkupdateitem_id) `PUT`
 
 # API Description
 ## Authentication
@@ -780,7 +780,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     }
     ```
 
-### /api/profiles/work/update
+### /api/profiles/work/update/:item_id
 - HTTP method: `PUT`
 - Update own `user`'s `work` history information
 - Whenever both of, or either one of, `start_date` and `end_date` are updated, it must be checked that `start_date` is not later than `end_date`. While some checks are made by the API, full comparisons must be implemented on the front-end to confirm that appropriate parameters have been passed to the API.
