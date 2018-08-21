@@ -12,9 +12,9 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 
 # Table of Contents
 
-- [API Endpoints](##api-endpoints)
-- [API Description](##api-description)
-- [Database Schema](##database-schema)
+- [API Endpoints](#api-endpoints)
+- [API Description](#api-description)
+- [Database Schema](#database-schema)
 
 # API Endpoints
 

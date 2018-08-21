@@ -10,9 +10,9 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 
 # 목차
 
-- [API Endpoints](##api-endpoints)
-- [API 설명](##api-설명)
-- [Database Schema](##database-schema)
+- [API Endpoints](#api-endpoints)
+- [API 설명](#api-설명)
+- [Database Schema](#database-schema)
 
 # API Endpoints
 
