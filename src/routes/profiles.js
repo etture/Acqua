@@ -205,18 +205,21 @@ router.get('/work/:user_id', requireAuth, (req, res) => {
 router.post('/work/add', requireAuth, (req, res) => {
     const user_id = req.user.id;
     const job = req.body;
-    let toPost;
+    let addItems = job;
     if (job.end_date.ended === true) {
-        toPost = job;
-        toPost.end_date = job.end_date.value;
-        toPost.status = 'past';
+        addItems.end_date = job.end_date.value;
+        addItems.status = 'past';
+        if (addItems.start_date >= addItems.end_date) {
+            return res.status(400).send({
+                errorMessage: "start_date cannot be later than end_date"
+            });
+        }
     } else {
-        toPost = job;
-        toPost.end_date = null;
-        toPost.status = 'current';
+        addItems.end_date = null;
+        addItems.status = 'current';
     }
 
-    db.query("INSERT INTO works SET user_id = ?, ?", [user_id, toPost], (err, result) => {
+    db.query("INSERT INTO works SET user_id = ?, ?", [user_id, addItems], (err, result) => {
         if (err) return res.send(err);
 
         res.send({
@@ -224,16 +227,130 @@ router.post('/work/add', requireAuth, (req, res) => {
             work: {
                 id: result.insertId,
                 user_id,
-                ...toPost
+                ...addItems
             }
         });
     });
 });
 
 //Update one of user's work history items
-router.put('/work/update', requireAuth, (req, res) => {
+router.put('/work/update/:item_id', requireAuth, (req, res) => {
+    const user_id = req.user.id;
+    const {item_id} = req.params;
 
+    //Create an object with only items that are neither empty nor null, i.e. desired to be updated
+    const updateItems = _.mapValues(_.pickBy(req.body, (v) => v.update === true), (v) => v.value);
+
+    //If the end_date property is updated in any way
+    if (updateItems.hasOwnProperty('end_date')) {
+        const {end_date} = updateItems;
+        if (updateItems.hasOwnProperty('start_date')) {
+            const {start_date} = updateItems;
+
+            //If date doesn't match the pattern, then reject the entire request
+            if (!/(\d{4})-(\d{2})-(\d{2})/.test(start_date)) {
+                return res.status(400).send({
+                    errorMessage: "date must match yyyy-mm-dd"
+                });
+            }
+
+            //Checking that new start_date is not later than new end_date, but this should be implemented on the front-end
+            if (start_date >= end_date) {
+                return res.status(400).send({
+                    errorMessage: "start_date cannot be later than end_date"
+                });
+            }
+        }
+
+        db.query("SELECT end_date FROM works WHERE id = ?", item_id, (err, results) => {
+            if (err) return res.send(err);
+            const original_end_date = JSON.parse(JSON.stringify(results))[0].end_date;
+            const new_end_date = updateItems.end_date;
+            console.log('original end date:', original_end_date);
+
+            //Checking for date format, but this should be implemented on the front-end
+            if (original_end_date === null) {
+                console.log('original end date is null!');
+                //If original end_date is null and new end_date is not null, then the work has ended and status must change to 'past'
+                if (new_end_date !== null) {
+                    console.log('new end date is NOT null!');
+                    //If date doesn't match the pattern, then reject the entire request
+                    if (!/(\d{4})-(\d{2})-(\d{2})/.test(new_end_date)) {
+                        return res.status(400).send({
+                            errorMessage: "date must match yyyy-mm-dd"
+                        });
+                    }
+                    console.log('new end date format is correcto');
+                    updateItems.status = 'past';
+                }
+                //If new end_date is also null, then a weird request... just let it through
+            } else {
+                //If original end_date is a valid date but new end_date is null, then the work has not ended and is current; status must change to 'current'
+                if (new_end_date === null) {
+
+                    updateItems.status = 'current';
+
+                } else if (!/(\d{4})-(\d{2})-(\d{2})/.test(new_end_date)) {
+                    return res.status(400).send({
+                        errorMessage: "date must match yyyy-mm-dd"
+                    });
+                }
+                //If both original and new end_date are valid dates, then leave status as 'past'
+            }
+
+            db.query("UPDATE works SET ? WHERE id = ?", [updateItems, item_id], (err, result) => {
+                if (err) return res.send(err);
+
+                res.send({
+                    isSuccess: true,
+                    work_updated: {
+                        id: item_id,
+                        user_id,
+                        ...updateItems
+                    }
+                });
+            });
+        });
+    } else {
+        //Case where end_date is not updated
+        if (updateItems.hasOwnProperty('start_date')) {
+            const {start_date} = updateItems;
+
+            //If date doesn't match the pattern, then reject the entire request
+            if (!/(\d{4})-(\d{2})-(\d{2})/.test(start_date)) {
+                return res.status(400).send({
+                    errorMessage: "date must match yyyy-mm-dd"
+                });
+            }
+
+            db.query("SELECT end_date FROM works WHERE id = ?", item_id, (err, results) => {
+                if (err) return res.send(err);
+                const original_end_date = JSON.parse(JSON.stringify(results))[0];
+
+                //Checking whether new start_date is later than original end_date, but this should be implemented on the front-end
+                if (original_end_date !== null) {
+                    if (start_date >= original_end_date) {
+                        return res.status(400).send({
+                            errorMessage: "start_date cannot be later than end_date"
+                        });
+                    }
+                }
+
+                db.query("UPDATE works SET ? WHERE id = ?", [updateItems, item_id], (err, result) => {
+                    if (err) return res.send(err);
+
+                    res.send({
+                        isSuccess: true,
+                        work_updated: {
+                            id: item_id,
+                            user_id,
+                            ...updateItems
+                        }
+                    });
+                });
+            });
+        }
+    }
 });
-
 
 module.exports = router;

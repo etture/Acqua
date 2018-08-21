@@ -40,7 +40,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/profiles/work/self](#apiprofilesworkself) `GET`
     - [x] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
     - [x] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
-    - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
+    - [x] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
 
 # API 설명
 ## 사용자 인증
@@ -740,7 +740,10 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/work/add
 - HTTP method: `POST`
-- `user` 본인의 `work` 직업 이력 항목 추가  
+- `user` 본인의 `work` 직업 이력 항목 추가
+- `company`, `position`, `start_date`는 필수 parameter
+- `end_date` can be included if `work` has ended, in which case the `ended` parameter should be set to `true` and `value` provided. `status` is set to `past` automatically.
+- If `work` is ongoing, set `ended` to `false` and leave `value` empty. `status` is set to `current` automatically.
 - Request
     - Header
         ```js
@@ -779,14 +782,51 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 ### /api/profiles/work/update
 - HTTP method: `PUT`
 - `user` 본인의 `work` 직업 이력 항목 수정
+- `start_date` 혹은 `end_date`가 수정될 때 (혹은 둘 다) `start_date`가 `end_date`보다 늦게 오지 않는지 확인되어야 한다. API상에서 여러 조건을 확인하지만, API로 적절한 parameter가 전달됐는지에 대한 완전한 확인은 프론트엔드에서 구현해야 한다.
+- 응답에는 수정된 항목만 표출된다
 - Request
     - Header
         ```js
         {
-        "authorization": "JWT 토큰"
+        "authorization": "JWT token"
+        }
+        ```
+    - Parameters
+        ```js
+        {
+        "company": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "position": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "start_date": {
+        	"update": true or false,
+        	"value": "updated value"
+        	},
+        "end_date": {
+        	"update": true or false,
+        	"value": "updated value"
+        	}
         }
         ```
 - Response
+    ```js
+    {
+    "isSuccess": true,
+    "work_updated": {
+        "id": "12",
+        "user_id": 15,
+        "company": "Hyundai Motors",
+        "position": "Marketer",
+        "start_date": "2017-06-13",
+        "end_date": null,
+        "status": "current"
+        }
+    }
+    ```
 
 # Database Schema
 
