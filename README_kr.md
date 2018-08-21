@@ -22,7 +22,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - [사용자 입력](#사용자-입력)
     - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id) `GET`
     - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id) `POST`
-    - [ ] [/api/entries/edit/:entry_id](#apientrieseditentry_id) `PUT`
+    - [x] [/api/entries/edit/:entry_id](#apientrieseditentry_id) `PUT`
 - [친구 리스트](#친구-리스트)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
@@ -155,7 +155,7 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
      "isSuccess": true,
      "user_id": 2,
      "friend_id": 8,
-     "post_id": 610
+     "entry_id": 610
     }
     ```
 
@@ -169,12 +169,21 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - Body
+        ```js
+        {
+        "memo": "수정된 메모"
+        }
+        ```
     - URL
         - `entry_id` (`entries` 테이블 `id` 열)
 - Response
     ```js
     {
-    
+    "isSuccess": true,
+    "user_id": 15,
+    "friend_id": 13,
+    "entry_id": 9
     }
     ```
 

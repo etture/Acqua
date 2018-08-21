@@ -25,7 +25,7 @@ router.get('/get/:friend_id', requireAuth, (req, res) => {
 });
 
 //Post a memo about a friend
-router.post('/post/:friend_id', requireAuth, (req, res) => {
+router.put('/post/:friend_id', requireAuth, (req, res) => {
     const {friend_id} = req.params;
     const user_id = req.user.id;
     const memo = req.body.memo;
@@ -41,7 +41,7 @@ router.post('/post/:friend_id', requireAuth, (req, res) => {
                 isSuccess: true,
                 user_id,
                 friend_id,
-                post_id: result.insertId
+                entry_id: result.insertId
             });
             console.log('1 entry inserted');
         }
@@ -50,7 +50,33 @@ router.post('/post/:friend_id', requireAuth, (req, res) => {
 
 //Edit an entry
 router.put('/edit/:entry_id', requireAuth, (req, res) => {
+    const user_id = req.user.id;
+    const entry_id = parseInt(req.params.entry_id);
+    const memo = req.body.memo;
 
+    db.query("SELECT * FROM entries WHERE id = ?", entry_id, (err, results) => {
+        if (err) return res.send(err);
+
+        const {user_id: owner_id, friend_id, created_at} = JSON.parse(JSON.stringify(results))[0];
+
+        //Confirm that user is accessing his own entry item
+        if (user_id !== owner_id) {
+            return res.status(400).send({
+                errorMessage: "cannot modify other user's entry"
+            });
+        }
+
+        db.query("UPDATE entries SET memo = ?, last_modified = NOW() WHERE id = ?", [memo, entry_id], (err, result) => {
+            if (err) return res.send(err);
+
+            res.send({
+                isSuccess: true,
+                user_id,
+                friend_id,
+                entry_id
+            });
+        });
+    });
 });
 
 module.exports = router;

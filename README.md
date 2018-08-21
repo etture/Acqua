@@ -24,7 +24,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - [User Entries](#user-entries)
     - [x] [/api/entries/get/:friend_id](#apientriesgetfriend_id) `GET`
     - [x] [/api/entries/post/:friend_id](#apientriespostfriend_id) `POST`
-    - [ ] [/api/entries/edit/:entry_id](#apientrieseditentry_id) `PUT`    
+    - [x] [/api/entries/edit/:entry_id](#apientrieseditentry_id) `PUT`    
 - [Friends List](#friends-list)
     - [x] [/api/friends/get](#apifriendsget) `GET`
     - [x] [/api/friends/add](#apifriendsadd) `POST`
@@ -159,7 +159,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     "isSuccess": true,
     "user_id": 2,
     "friend_id": 8,
-    "post_id": 610
+    "entry_id": 610
     }
     ```
 
@@ -173,12 +173,21 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT token"
         }
         ```
+    - Body
+        ```js
+        {
+        "memo": "edited memo"
+        }
+        ```
     - URL
         - `entry_id` (`entries` table `id` column)
 - Response
     ```js
     {
-    
+    "isSuccess": true,
+    "user_id": 15,
+    "friend_id": 13,
+    "entry_id": 9
     }
     ```
 
