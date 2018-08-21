@@ -48,4 +48,9 @@ router.post('/post/:friend_id', requireAuth, (req, res) => {
     });
 });
 
+//Edit an entry
+router.put('/edit/:entry_id', requireAuth, (req, res) => {
+
+});
+
 module.exports = router;

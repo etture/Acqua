@@ -24,17 +24,17 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/friends/add](#apifriendsadd) `POST`
     - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [User Profile](#user-profile)
-    - [ ] [/api/profiles/self](#apiprofilesself) `GET`
-    - [ ] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
+    - [x] [/api/profiles/self](#apiprofilesself) `GET`
+    - [x] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
     - [x] [/api/profiles/basic/self](#apiprofilesbasicself) `GET`
     - [x] [/api/profiles/basic/:user_id](#apiprofilesbasicuser_id) `GET`
     - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
     - [x] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
-    - [ ] [/api/profiles/profile/self](#apiprofilesprofileself) `GET`
+    - [x] [/api/profiles/profile/self](#apiprofilesprofileself) `GET`
     - [x] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
-    - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `PUT`
-    - [ ] [/api/profiles/work/self](#apiprofilesworkself) `GET`
-    - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
+    - [x] [/api/profiles/profile/update](#apiprofilesprofileupdate) `PUT`
+    - [x] [/api/profiles/work/self](#apiprofilesworkself) `GET`
+    - [x] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
     - [ ] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
     - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
 
@@ -261,7 +261,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 ## User Profile
 ### /api/profiles/self
 - HTTP method: `GET`
-- Return all of own `user`'s profile information
+- Return own `user`'s complete profile information
 - Request
     - Header
         ```js
@@ -272,13 +272,51 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     {
-    
+    "complete_profile": {
+            "id": 116,
+            "last_name": "Lee",
+            "first_name": "Paul",
+            "email": "paul@gmail.com",
+            "phone_number": "01031887610",
+            "gender": "male",
+            "birthday": null,
+            "profile_picture": null,
+            "high_school": "Walnut High School",
+            "university_name": "Emory University",
+            "university_major": "Computer Science",
+            "graduate_masters_name": null,
+            "graduate_masters_major": null,
+            "graduate_phd_name": null,
+            "graduate_phd_major": null,
+            "current_work_name": "Twitter",
+            "current_work_position": "Developer"
+        },
+    "work_history": [
+            {
+                "id": 97,
+                "user_id": 116,
+                "status": "current",
+                "company": "Twitter",
+                "position": "Developer",
+                "start_date": "2017-06-20T15:00:00.000Z",
+                "end_date": null
+            },
+            {
+                "id": 182,
+                "user_id": 116,
+                "status": "past",
+                "company": "Samsung",
+                "position": "Intern",
+                "start_date": "2015-11-22T15:00:00.000Z",
+                "end_date": null
+            }
+        ]
     }
     ```
 
 ### /api/profiles/:user_id
 - HTTP method: `GET`
-- Return all of another `user`'s profile information
+- Return another `user`'s complete profile information
 - Request
     - Header
         ```js
@@ -289,7 +327,45 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     {
-    
+    "complete_profile": {
+            "id": 116,
+            "last_name": "Lee",
+            "first_name": "Paul",
+            "email": "paul@gmail.com",
+            "phone_number": "01031887610",
+            "gender": "male",
+            "birthday": null,
+            "profile_picture": null,
+            "high_school": "Walnut High School",
+            "university_name": "Emory University",
+            "university_major": "Computer Science",
+            "graduate_masters_name": null,
+            "graduate_masters_major": null,
+            "graduate_phd_name": null,
+            "graduate_phd_major": null,
+            "current_work_name": "Twitter",
+            "current_work_position": "Developer"
+        },
+    "work_history": [
+            {
+                "id": 97,
+                "user_id": 116,
+                "status": "current",
+                "company": "Twitter",
+                "position": "Developer",
+                "start_date": "2017-06-20T15:00:00.000Z",
+                "end_date": null
+            },
+            {
+                "id": 182,
+                "user_id": 116,
+                "status": "past",
+                "company": "Samsung",
+                "position": "Intern",
+                "start_date": "2015-11-22T15:00:00.000Z",
+                "end_date": null
+            }
+        ]
     }
     ```
 
@@ -361,11 +437,11 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     {
     "isSuccess": true,
     "updatedItems": {  
-               "last_name": "Kim",
-               "first_name": "Chulsoo",
-               "email": "chulsoo@gmail.com"
-               "phone_number": "01012345678"
-               }
+        "last_name": "Kim",
+        "first_name": "Chulsoo",
+        "email": "chulsoo@gmail.com"
+        "phone_number": "01012345678"
+        }
     }
     ```
 
@@ -455,43 +531,9 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/profile/update
 - HTTP method: `PUT`
-- Update own `user`'s public `profile` information
-- Request
-    - Header
-        ```js
-        {
-        "authorization": "JWT token"
-        }
-        ```
-- Response
-
-### /api/profiles/work/self
-- HTTP method: `GET`
-- Return own `user`'s work history information
-- Request
-    - Header
-        ```js
-        {
-        "authorization": "JWT token"
-        }
-        ```
-- Response
-
-### /api/profiles/work/:user_id
-- HTTP method: `GET`
-- Return another `user`'s work history information
-- Request
-    - Header
-        ```js
-        {
-        "authorization": "JWT token"
-        }
-        ```
-- Response
-
-### /api/profiles/work/add
-- HTTP method: `POST`
-- Add a new item to `user`'s work history
+- Update own `user`'s public `profile` information except for `current_work` information
+- Items that are not to be updated can either be `null` or empty string in the parameters
+- `updatedItems` in the response contains only items that were updated
 - Request
     - Header
         ```js
@@ -502,14 +544,128 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
     - Parameters
         ```js
         {
+        "gender": "male or female / null || ''",
+        "birthday": "date of birth yyyy-mm-dd / null || ''",
+        "profile_picture": "path to image / null || ''",
+        "high_school": "high school name / null || ''",
+        "university_name": "university name / null || ''",
+        "university_major": "university major / null || ''",
+        "graduate_masters_name": "graduate school name (masters) / null || ''",
+        "graduate_masters_major": "masters major / null || ''",
+        "graduate_phd_name": "graduate school name (phd) / null || ''",
+        "graduate_phd_major": "phd major / null || ''"
+        }
+        ```
+- Response
+    ```js
+    {
+    "isSuccess": true,
+    "updatedItems": {
+        "gender": "male",
+        "birthday": "1994-07-18",
+        "profile_picture": "path/images/1923812.png",
+        "high_school": "Los Osos High School",
+        "university_name": "Brown University",
+        "university_major": "Anthropology",
+        "graduate_masters_name": "Harvard University",
+        "graduate_masters_major": "Political Science",
+        "graduate_phd_name": "Yale University",
+        "graduate_phd_major": "Economics"
+        }
+    }
+    ```
+
+### /api/profiles/work/self
+- HTTP method: `GET`
+- Return own `user`'s `work` history information
+- Request
+    - Header
+        ```js
+        {
         "authorization": "JWT token"
+        }
+        ```
+- Response
+    ```js
+    [  
+      {
+      "id": 231,
+      "user_id": 16,
+      "status": "current",
+      "company": "Google",
+      "position": "Developer",
+      "start_date": "2017-06-20T15:00:00.000Z",
+      "end_date": null
+      },
+      {
+      "id": 320,
+      "user_id": 16,
+      "status": "past",
+      "company": "Samsung",
+      "position": "Intern",
+      "start_date": "2015-11-22T15:00:00.000Z",
+      "end_date": null
+      },
+      ...
+    ]
+    ```
+
+### /api/profiles/work/:user_id
+- HTTP method: `GET`
+- Return another `user`'s `work` history information
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+- Response
+    ```js
+    [  
+      {
+      "id": 231,
+      "user_id": 16,
+      "status": "current",
+      "company": "Google",
+      "position": "Developer",
+      "start_date": "2017-06-20T15:00:00.000Z",
+      "end_date": null
+      },
+      {
+      "id": 320,
+      "user_id": 16,
+      "status": "past",
+      "company": "Samsung",
+      "position": "Intern",
+      "start_date": "2015-11-22T15:00:00.000Z",
+      "end_date": null
+      },
+      ...
+    ]
+    ```   
+
+### /api/profiles/work/add
+- HTTP method: `POST`
+- Add a new item to `user`'s `work` history
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+    - Parameters
+        ```js
+        {
+        
         }
         ```
 - Response
 
 ### /api/profiles/work/update
 - HTTP method: `PUT`
-- Update own `user`'s work history information
+- Update own `user`'s `work` history information
 - Request
     - Header
         ```js

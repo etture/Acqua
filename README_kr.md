@@ -22,17 +22,17 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     - [x] [/api/friends/add](#apifriendsadd) `POST`
     - [x] [/api/friends/nickname](#apifriendsnickname) `PUT`
 - [사용자 프로필](#사용자-프로필)
-    - [ ] [/api/profiles/self](#apiprofilesself) `GET`
-    - [ ] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
+    - [x] [/api/profiles/self](#apiprofilesself) `GET`
+    - [x] [/api/profiles/:user_id](#apiprofilesuser_id) `GET`
     - [x] [/api/profiles/basic/self](#apiprofilesbasicself) `GET`
     - [x] [/api/profiles/basic/:user_id](#apiprofilesbasicuser_id) `GET`
     - [x] [/api/profiles/basic/update](#apiprofilesbasicupdate) `PUT`
     - [x] [/api/profiles/basic/update_pw](#apiprofilesbasicupdate_pw) `PUT`
-    - [ ] [/api/profiles/profile/self](#apiprofilesprofileself) `GET`
+    - [x] [/api/profiles/profile/self](#apiprofilesprofileself) `GET`
     - [x] [/api/profiles/profile/:user_id](#apiprofilesprofileuser_id) `GET`
-    - [ ] [/api/profiles/profile/update](#apiprofilesprofileupdate) `PUT`
-    - [ ] [/api/profiles/work/self](#apiprofilesworkself) `GET`
-    - [ ] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
+    - [x] [/api/profiles/profile/update](#apiprofilesprofileupdate) `PUT`
+    - [x] [/api/profiles/work/self](#apiprofilesworkself) `GET`
+    - [x] [/api/profiles/work/:user_id](#apiprofilesworkuser_id) `GET`
     - [ ] [/api/profiles/work/add](#apiprofilesworkadd) `POST`
     - [ ] [/api/profiles/work/update](#apiprofilesworkupdate) `PUT`
 
@@ -271,7 +271,45 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     {
-    
+    "complete_profile": {
+            "id": 116,
+            "last_name": "이",
+            "first_name": "선우",
+            "email": "paul@gmail.com",
+            "phone_number": "01031887610",
+            "gender": "male",
+            "birthday": null,
+            "profile_picture": null,
+            "high_school": "청담고등학교",
+            "university_name": "연세대학교",
+            "university_major": "산업공학",
+            "graduate_masters_name": null,
+            "graduate_masters_major": null,
+            "graduate_phd_name": null,
+            "graduate_phd_major": null,
+            "current_work_name": "트위터",
+            "current_work_position": "개발자"
+        },
+    "work_history": [
+            {
+                "id": 97,
+                "user_id": 116,
+                "status": "current",
+                "company": "트위터",
+                "position": "개발자",
+                "start_date": "2017-06-20T15:00:00.000Z",
+                "end_date": null
+            },
+            {
+                "id": 182,
+                "user_id": 116,
+                "status": "past",
+                "company": "삼성",
+                "position": "인턴",
+                "start_date": "2015-11-22T15:00:00.000Z",
+                "end_date": null
+            }
+        ]
     }
     ```
 
@@ -288,7 +326,45 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     {
-    
+    "complete_profile": {
+            "id": 116,
+            "last_name": "이",
+            "first_name": "선우",
+            "email": "paul@gmail.com",
+            "phone_number": "01031887610",
+            "gender": "male",
+            "birthday": null,
+            "profile_picture": null,
+            "high_school": "청담고등학교",
+            "university_name": "연세대학교",
+            "university_major": "산업공학",
+            "graduate_masters_name": null,
+            "graduate_masters_major": null,
+            "graduate_phd_name": null,
+            "graduate_phd_major": null,
+            "current_work_name": "트위터",
+            "current_work_position": "개발자"
+        },
+    "work_history": [
+            {
+                "id": 97,
+                "user_id": 116,
+                "status": "current",
+                "company": "트위터",
+                "position": "개발자",
+                "start_date": "2017-06-20T15:00:00.000Z",
+                "end_date": null
+            },
+            {
+                "id": 182,
+                "user_id": 116,
+                "status": "past",
+                "company": "삼성",
+                "position": "인턴",
+                "start_date": "2015-11-22T15:00:00.000Z",
+                "end_date": null
+            }
+        ]
     }
     ```
 
@@ -360,11 +436,11 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
     {
     "isSuccess": true,
     "updatedItems": {  
-               "last_name": "김",
-               "first_name": "철수",
-               "email": "chulsoo@gmail.com"
-               "phone_number": "01012345678"
-               }
+        "last_name": "김",
+        "first_name": "철수",
+        "email": "chulsoo@gmail.com"
+        "phone_number": "01012345678"
+        }
     }
     ```
 
@@ -454,7 +530,9 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 
 ### /api/profiles/profile/update
 - HTTP method: `PUT`
-- `user` 본인의 공개 프로필 정보 수정
+- `user` 본인의 공개 `profile` 정보 수정 (`current_work` 정보 제외)
+- 수정되지 않을 항목들은 parameter에 `null`이나 빈 문자열로 넘겨준다 
+- 응답 내 `updatedItems`는 수정된 항목들만 반환한다
 - Request
     - Header
         ```js
@@ -462,11 +540,43 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         "authorization": "JWT 토큰"
         }
         ```
+    - Parameters
+        ```js
+        {
+        "gender": "male 혹은 female / null || ''",
+        "birthday": "생일 yyyy-mm-dd / null || ''",
+        "profile_picture": "이미지 파일 경로 / null || ''",
+        "high_school": "고등학교 이름 / null || ''",
+        "university_name": "학부 대학교 이름 / null || ''",
+        "university_major": "학부 전공 / null || ''",
+        "graduate_masters_name": "대학원 이름 (석사) / null || ''",
+        "graduate_masters_major": "석사 전공 / null || ''",
+        "graduate_phd_name": "대학원 이름 (박사) / null || ''",
+        "graduate_phd_major": "박사 전공 / null || ''"
+        }
+        ```
 - Response
+    ```js
+    {
+    "isSuccess": true,
+    "updatedItems": {
+        "gender": "male",
+        "birthday": "1994-07-18",
+        "profile_picture": "path/images/1923812.png"
+        "high_school": "청담고등학교",
+        "university_name": "연세대학교",
+        "university_major": "문화인류학",
+        "graduate_masters_name": "Harvard University",
+        "graduate_masters_major": "정치외교학",
+        "graduate_phd_name": "Yale University",
+        "graduate_phd_major": "경제학"
+        }
+    }
+    ```
 
 ### /api/profiles/work/self
 - HTTP method: `GET`
-- `user` 본인의 직업 정보 반환
+- `user` 본인의 `work` 직업 이력 정보 반환
 - Request
     - Header
         ```js
@@ -475,22 +585,86 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         }
         ```
 - Response
+    ```js
+    [  
+      {
+      "id": 231,
+      "user_id": 16,
+      "status": "current",
+      "company": "구글",
+      "position": "개발자",
+      "start_date": "2017-06-20T15:00:00.000Z",
+      "end_date": null
+      },
+      {
+      "id": 320,
+      "user_id": 16,
+      "status": "past",
+      "company": "삼성",
+      "position": "인턴",
+      "start_date": "2015-11-22T15:00:00.000Z",
+      "end_date": null
+      },
+      ...
+    ]
+    ```
 
 ### /api/profiles/work/:user_id
 - HTTP method: `GET`
-- 다른 `user`의 직업 정보 반환
+- 다른 `user`의 `work` 직업 이력 정보 반환
 - Request
     - Header
         ```js
         {
         "authorization": "JWT 토큰"
+        }
+        ```
+- Response
+    ```js
+    [  
+      {
+      "id": 231,
+      "user_id": 16,
+      "status": "current",
+      "company": "구글",
+      "position": "개발자",
+      "start_date": "2017-06-20T15:00:00.000Z",
+      "end_date": null
+      },
+      {
+      "id": 320,
+      "user_id": 16,
+      "status": "past",
+      "company": "삼성",
+      "position": "인턴",
+      "start_date": "2015-11-22T15:00:00.000Z",
+      "end_date": null
+      },
+      ...
+    ]
+    ```
+
+### /api/profiles/work/add
+- HTTP method: `POST`
+- `user` 본인의 `work` 직업 이력 항목 추가  
+- Request
+    - Header
+        ```js
+        {
+        "authorization": "JWT token"
+        }
+        ```
+    - Parameters
+        ```js
+        {
+        
         }
         ```
 - Response
 
 ### /api/profiles/work/update
 - HTTP method: `PUT`
-- `user` 본인의 직업 정보 수정
+- `user` 본인의 `work` 직업 이력 항목 수정
 - Request
     - Header
         ```js
