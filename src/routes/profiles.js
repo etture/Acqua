@@ -76,10 +76,17 @@ router.get('/basic/:user_id', requireAuth, (req, res) => {
     db.query("SELECT * FROM users WHERE id = ? LIMIT 1", user_id, (err, results) => {
         if (err) return res.send(err);
         const user = JSON.parse(JSON.stringify(results))[0];
-        const {id, last_name, first_name, email, phone_number} = user;
-        res.json({
-            id, last_name, first_name, email, phone_number
-        });
+        if (user) {
+            const {id, last_name, first_name, email, phone_number} = user;
+            res.json({
+                id, last_name, first_name, email, phone_number
+            });
+        } else {
+            res.send({
+                code: 404,
+                errorMessage: "user does not exist"
+            });
+        }
     });
 });
 
@@ -298,7 +305,7 @@ router.put('/work/update/:item_id', requireAuth, (req, res) => {
             } else {
 
                 //If original end_date is a valid date but new end_date is null, then the work has not ended and is current; status must change to 'current'
-                if (original_end_date !== null){
+                if (original_end_date !== null) {
                     updateItems.status = 'current';
                 }
                 //If both original and new end_date are null, then leave status as 'current'
