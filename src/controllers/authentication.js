@@ -30,7 +30,7 @@ exports.signup = function (req, res, next) {
 
     //Return an error if either email or password is not entered
     if (!email || !password) {
-        return res.status(422).send({error: 'Must provide both email and password'});
+        return res.status(422).send({errorMessage: 'Must provide both email and password'});
     }
 
     //Check to see if an account already exists with that email
@@ -40,7 +40,7 @@ exports.signup = function (req, res, next) {
         }
 
         if (results.length > 0) {
-            return res.status(422).send({error: 'Email is in use'});
+            return res.status(422).send({errorMessage: 'Email is in use'});
         }
 
         //If the email is available, create and save the new user

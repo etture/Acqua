@@ -57,7 +57,15 @@ router.put('/edit/:entry_id', requireAuth, (req, res) => {
     db.query("SELECT * FROM entries WHERE id = ?", entry_id, (err, results) => {
         if (err) return res.send(err);
 
-        const {user_id: owner_id, friend_id, created_at} = JSON.parse(JSON.stringify(results))[0];
+        const entry = JSON.parse(JSON.stringify(results))[0];
+
+        if(!entry){
+            return res.status(400).send({
+                errorMessage: "entry does not exist"
+            });
+        }
+
+        const {user_id: owner_id, friend_id, created_at} = entry;
 
         //Confirm that user is accessing his own entry item
         if (user_id !== owner_id) {

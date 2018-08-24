@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7153321-f3bb-430f-8efa-a1fbf3a814ab" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/authentication.js" afterPath="$PROJECT_DIR$/src/controllers/authentication.js" />
+      <change beforePath="$PROJECT_DIR$/src/routes/entries.js" afterPath="$PROJECT_DIR$/src/routes/entries.js" />
       <change beforePath="$PROJECT_DIR$/src/routes/profiles.js" afterPath="$PROJECT_DIR$/src/routes/profiles.js" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -36,7 +39,7 @@
       <file leaf-file-name="console.sql" pinned="false" current-in-tab="false">
         <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c09ede46-a203-43cd-b2dc-8b9c9e1cef1e/console.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7696">
+            <state relative-caret-position="0">
               <caret line="296" column="55" lean-forward="false" selection-start-line="296" selection-start-column="55" selection-end-line="296" selection-end-column="55" />
               <folding />
             </state>
@@ -46,8 +49,28 @@
       <file leaf-file-name="profiles.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes/profiles.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="85" column="16" lean-forward="false" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
+            <state relative-caret-position="221">
+              <caret line="98" column="9" lean-forward="true" selection-start-line="98" selection-start-column="9" selection-end-line="98" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="entries.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/routes/entries.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1612">
+              <caret line="62" column="19" lean-forward="false" selection-start-line="62" selection-start-column="19" selection-end-line="62" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="authentication.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/controllers/authentication.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -73,6 +96,7 @@
       <find>메모</find>
       <find>post_id</find>
       <find>sample du</find>
+      <find>error</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -102,14 +126,14 @@
         <option value="$PROJECT_DIR$/schema.sql" />
         <option value="$PROJECT_DIR$/reference/api.txt" />
         <option value="$PROJECT_DIR$/src/services/passport.js" />
-        <option value="$PROJECT_DIR$/src/controllers/authentication.js" />
         <option value="$PROJECT_DIR$/reference/schema.sql" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/routes/friends.js" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/c09ede46-a203-43cd-b2dc-8b9c9e1cef1e/console.sql" />
-        <option value="$PROJECT_DIR$/src/routes/entries.js" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/README_kr.md" />
+        <option value="$PROJECT_DIR$/src/routes/entries.js" />
+        <option value="$PROJECT_DIR$/src/controllers/authentication.js" />
         <option value="$PROJECT_DIR$/src/routes/profiles.js" />
       </list>
     </option>
@@ -364,12 +388,12 @@
       <workItem from="1534924898489" duration="542000" />
       <workItem from="1534925535759" duration="600000" />
       <workItem from="1535109888878" duration="710000" />
-      <workItem from="1535110709831" duration="406000" />
+      <workItem from="1535110709831" duration="2149000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138834000" />
+    <option name="totallyTimeSpent" value="140577000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -683,31 +707,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="16" column="61" lean-forward="true" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="9" column="6" lean-forward="false" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/friends.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="56" column="7" lean-forward="true" selection-start-line="56" selection-start-column="7" selection-end-line="56" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/authentication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="54" column="87" lean-forward="true" selection-start-line="54" selection-start-column="87" selection-end-line="54" selection-end-column="87" />
         </state>
       </provider>
     </entry>
@@ -735,13 +738,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/entries.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1056">
-          <caret line="20" column="64" lean-forward="true" selection-start-line="20" selection-start-column="64" selection-end-line="20" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
@@ -754,16 +750,48 @@
     </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c09ede46-a203-43cd-b2dc-8b9c9e1cef1e/console.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7696">
+        <state relative-caret-position="0">
           <caret line="296" column="55" lean-forward="false" selection-start-line="296" selection-start-column="55" selection-end-line="296" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/friends.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="56" column="7" lean-forward="true" selection-start-line="56" selection-start-column="7" selection-end-line="56" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="16" column="61" lean-forward="true" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/authentication.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/entries.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1612">
+          <caret line="62" column="19" lean-forward="false" selection-start-line="62" selection-start-column="19" selection-end-line="62" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/profiles.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="85" column="16" lean-forward="false" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
+        <state relative-caret-position="221">
+          <caret line="98" column="9" lean-forward="true" selection-start-line="98" selection-start-column="9" selection-end-line="98" selection-end-column="9" />
           <folding />
         </state>
       </provider>

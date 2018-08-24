@@ -22,6 +22,13 @@ router.get('/self', requireAuth, (req, res) => {
         if (err) return res.send(err);
         const complete_profile = JSON.parse(JSON.stringify(results))[0];
 
+        //User is undefined because the user with that ID doesn't exist
+        if(!complete_profile){
+            return res.status(400).send({
+                errorMessage: "user does not exist"
+            });
+        }
+
         db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
             if (err) return res.send(err);
             const work_history = JSON.parse(JSON.stringify(results));
@@ -46,6 +53,13 @@ router.get('/:user_id', requireAuth, (req, res) => {
     db.query(query_select_all_profile_info, user_id, (err, results) => {
         if (err) return res.send(err);
         const complete_profile = JSON.parse(JSON.stringify(results))[0];
+
+        //User is undefined because the user with that ID doesn't exist
+        if(!complete_profile){
+            return res.status(400).send({
+                errorMessage: "user does not exist"
+            });
+        }
 
         db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
             if (err) return res.send(err);
@@ -76,16 +90,18 @@ router.get('/basic/:user_id', requireAuth, (req, res) => {
     db.query("SELECT * FROM users WHERE id = ? LIMIT 1", user_id, (err, results) => {
         if (err) return res.send(err);
         const user = JSON.parse(JSON.stringify(results))[0];
-        if (user) {
-            const {id, last_name, first_name, email, phone_number} = user;
-            res.json({
-                id, last_name, first_name, email, phone_number
-            });
-        } else {
-            res.status(400).send({
+
+        //User is undefined because the user with that ID doesn't exist
+        if(!user){
+            return res.status(400).send({
                 errorMessage: "user does not exist"
             });
         }
+
+        const {id, last_name, first_name, email, phone_number} = user;
+        res.json({
+            id, last_name, first_name, email, phone_number
+        });
     });
 });
 
@@ -140,6 +156,14 @@ router.get('/profile/self', requireAuth, (req, res) => {
     db.query("SELECT * FROM profiles WHERE user_id = ? LIMIT 1", user_id, (err, results) => {
         if (err) return res.send(err);
         const user_profile = JSON.parse(JSON.stringify(results))[0];
+
+        //User is undefined because the user with that ID doesn't exist
+        if(!user_profile){
+            return res.status(400).send({
+                errorMessage: "user does not exist"
+            });
+        }
+
         res.json(user_profile);
     });
 });
@@ -151,6 +175,14 @@ router.get('/profile/:user_id', requireAuth, (req, res) => {
     db.query("SELECT * FROM profiles WHERE user_id = ? LIMIT 1", user_id, (err, results) => {
         if (err) return res.send(err);
         const user_profile = JSON.parse(JSON.stringify(results))[0];
+
+        //User is undefined because the user with that ID doesn't exist
+        if(!user_profile){
+            return res.status(400).send({
+                errorMessage: "user does not exist"
+            });
+        }
+
         res.json(user_profile);
     });
 });
@@ -181,6 +213,13 @@ router.get('/work/self', requireAuth, (req, res) => {
         if (err) return res.send(err);
         const work_history = JSON.parse(JSON.stringify(results));
 
+        //User is undefined because the user with that ID doesn't exist
+        if(!work_history){
+            return res.status(400).send({
+                errorMessage: "user does not exist"
+            });
+        }
+
         db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
             if (err) return res.send(err);
             const current_work = JSON.parse(JSON.stringify(results));
@@ -197,6 +236,13 @@ router.get('/work/:user_id', requireAuth, (req, res) => {
     db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
         if (err) return res.send(err);
         const work_history = JSON.parse(JSON.stringify(results));
+
+        //User is undefined because the user with that ID doesn't exist
+        if(!work_history){
+            return res.status(400).send({
+                errorMessage: "user does not exist"
+            });
+        }
 
         db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
             if (err) return res.send(err);
@@ -250,7 +296,16 @@ router.put('/work/update/:item_id', requireAuth, (req, res) => {
     db.query("SELECT * FROM works WHERE id = ?", item_id, (err, results) => {
         if (err) return res.send(err);
 
-        const {user_id: owner_id, start_date: original_start_date, end_date: original_end_date} = JSON.parse(JSON.stringify(results))[0];
+        const work_item = JSON.parse(JSON.stringify(results))[0];
+
+        //user_id is undefined because the work item with that ID doesn't exist
+        if(!work_item){
+            return res.status(400).send({
+                errorMessage: "work item does not exist"
+            });
+        }
+
+        const {user_id: owner_id, start_date: original_start_date, end_date: original_end_date} = work_item;
 
         //Confirm that user is accessing his own work item
         if (user_id !== owner_id) {
