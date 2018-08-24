@@ -82,8 +82,7 @@ router.get('/basic/:user_id', requireAuth, (req, res) => {
                 id, last_name, first_name, email, phone_number
             });
         } else {
-            res.send({
-                code: 404,
+            res.status(400).send({
                 errorMessage: "user does not exist"
             });
         }
