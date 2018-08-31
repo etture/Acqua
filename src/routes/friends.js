@@ -12,14 +12,14 @@ const requireAuth = passport.authenticate('jwt', {session: false});
 router.get('/get', requireAuth, (req, res) => {
     const user_id = req.user.id;
 
-    const query_select_friends = "SELECT friends.friend_id, users.last_name, users.first_name, friends.nickname, users.email, users.phone_number FROM users INNER JOIN friends ON users.id = friends.friend_id WHERE user_id = ?";
+    const query_select_friends = "SELECT friends.friend_id AS id, users.last_name, users.first_name, friends.nickname, users.email, users.phone_number FROM users INNER JOIN friends ON users.id = friends.friend_id WHERE user_id = ?";
 
     db.query(query_select_friends, [user_id], (err, results) => {
         if (err) {
             res.send(err);
         } else {
             const friends = JSON.parse(JSON.stringify(results));
-            res.json(friends);
+            res.send({friends_list: friends});
         }
     });
 });

@@ -66,7 +66,7 @@ exports.signup = function (req, res, next) {
                     const last_id = result.insertId;
                     console.log('last ID:', last_id);
 
-                    //Once the user has been inserted into `users`, create row for `profiles` and `works`
+                    //Once the user has been inserted into `users`, create row for `profiles`
                     db.query('INSERT INTO profiles SET user_id = ?', last_id, (err, result) => {
                         if (err) {
                             db.rollback(() => {
