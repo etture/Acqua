@@ -201,23 +201,25 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         ```
 - Response
     ```js
-    [
-      {  
-      "friend_id": 7,
-      "last_name": "Park",
-      "first_name": "Mark",
-      "email": "parkmark@gmail.com",
-      "phone_number": "01099291028"
-      },
-      {
-      "friend_id": 9,
-      "last_name": "Jong",
-      "first_name": "Soon",
-      "email": "jongsoon@gmail.com",
-      "phone_number": "01012345678"
-      },
-      ...
-	]
+    {
+        "friends_list": [
+              {  
+              "id": 7,
+              "last_name": "Park",
+              "first_name": "Mark",
+              "email": "parkmark@gmail.com",
+              "phone_number": "01099291028"
+              },
+              {
+              "id": 9,
+              "last_name": "Jong",
+              "first_name": "Soon",
+              "email": "jongsoon@gmail.com",
+              "phone_number": "01012345678"
+              },
+              ...
+        ]
+    }
     ```
 
 ### /api/friends/add
@@ -666,7 +668,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         ```
 - Response
     ```js
-    [  
+    {  
       "work_history": [
           {
           "id": 231,
@@ -700,7 +702,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
           },
           ...    
         ]
-    ]
+    }
     ```
 
 ### /api/profiles/work/:user_id
@@ -717,7 +719,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
         - `user_id` (`works` table `user_id` column :left_right_arrow: `users` table `id` column)
 - Response
     ```js
-    [  
+    {  
       "work_history": [
           {
           "id": 231,
@@ -751,7 +753,7 @@ Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
           },
           ...    
         ]
-    ]
+    }
     ```
 
 ### /api/profiles/work/add

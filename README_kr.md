@@ -200,23 +200,25 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
         ```
 - Response
     ```js
-    [
-      {  
-      "friend_id": 7,
-      "last_name": "박",
-      "first_name": "민수",
-      "email": "parkmark@gmail.com",
-      "phone_number": "01099291028"
-      },
-      {
-      "friend_id": 9,  
-      "last_name": "정",
-      "first_name": "순효",
-      "email": "jongsoon@gmail.com",
-      "phone_number": "01012345678"
-      },
-      ...
-	]
+    {
+        "friends_list": [
+              {  
+              "id": 7,
+              "last_name": "박",
+              "first_name": "민수",
+              "email": "parkmark@gmail.com",
+              "phone_number": "01099291028"
+              },
+              {
+              "id": 9,
+              "last_name": "정",
+              "first_name": "순효",
+              "email": "jongsoon@gmail.com",
+              "phone_number": "01012345678"
+              },
+              ...
+        ]
+    }
     ```
 
 ### /api/friends/add
