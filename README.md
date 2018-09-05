@@ -1,6 +1,10 @@
-# acqua API
+# acqua
 
 <img src="./public/images/logo_white.png" width="200">
+
+Short for 'acquaintance', *acqua* is a service for managing your acquaintances. Never forget anything about your friends, coworkers, and family again; make memos on *acqua*, and it will remind you of your friends' details right before you meet them. Use the *acqua* calendar for additional functionality like schedule integration with your friends and reminders. 
+
+# acqua API
 
 [한국어 버전](./README_kr.md)
 
@@ -9,6 +13,10 @@ RESTful API for *acqua*
 Server written in Node.js, database in MySQL
 
 Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
+
+[React.js Web Client](https://github.com/etture/acqua-client)
+
+[Android Client](https://github.com/etture/acqua-android)
 
 # Table of Contents
 

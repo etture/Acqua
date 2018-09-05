@@ -1,12 +1,20 @@
-# acqua API
+# acqua
 
 <img src="./public/images/logo_white.png" width="200">
+
+*acqua*는 'acquaintance'의 앞글자를 따서 지인과의 관계를 관리하는 서비스입니다. 자주 잊어버리곤 하는 친구, 동료, 가족 등 지인에 대한 정보 (생일 등 기본 정보부터 언제 무슨 얘기를 했는지 등)를 *acqua*에 메모하면, 다음에 만나기 전에 해당 정보를 알림 형태로 알려드립니다. *acqua* 내부 캘린더를 이용하여 친구와 일정 공유, 알림 등 추가 기능을 제공합니다.
+
+# acqua API
 
 *acqua*를 위한 RESTful API
 
 서버는 Node.js로 작성, 데이터베이스는 MySQL
 
 Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
+
+[React.js 웹 클라이언트](https://github.com/etture/acqua-client)
+
+[안드로이드 클라이언트](https://github.com/etture/acqua-android)
 
 # 목차
 
