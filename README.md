@@ -14,9 +14,9 @@ Server written in Node.js, database in MySQL
 
 Deployed to Heroku, current URL: *https://acqua-api.herokuapp.com*
 
-[React.js Web Client](https://github.com/etture/acqua-client)
-
 [Android Client](https://github.com/etture/acqua-android)
+
+[React.js Web Client](https://github.com/etture/acqua-client)
 
 # Table of Contents
 
