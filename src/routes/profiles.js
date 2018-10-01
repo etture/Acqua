@@ -15,29 +15,87 @@ const requireAuth = passport.authenticate('jwt', {session: false});
 router.get('/self', requireAuth, (req, res) => {
     const user_id = req.user.id;
 
-    const query_select_all_profile_info =
-        "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number, profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major FROM users INNER JOIN profiles ON users.id = profiles.user_id WHERE id = ?";
+    const query_select_basic_profile = "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number FROM users WHERE id = ?";
 
-    db.query(query_select_all_profile_info, user_id, (err, results) => {
+    const query_select_expanded_profile = "SELECT profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major FROM profiles WHERE user_id = ?";
+
+    db.query(query_select_basic_profile, user_id, (err, results) => {
         if (err) return res.send(err);
-        const complete_profile = JSON.parse(JSON.stringify(results))[0];
+        const basic_profile = JSON.parse(JSON.stringify(results))[0];
 
         //User is undefined because the user with that ID doesn't exist
-        if(!complete_profile){
+        if(!basic_profile){
             return res.status(400).send({
                 errorMessage: "user does not exist"
             });
         }
 
-        db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
+        db.query(query_select_expanded_profile, user_id, (err, results) => {
             if (err) return res.send(err);
-            const work_history = JSON.parse(JSON.stringify(results));
+            const expanded_profile = JSON.parse(JSON.stringify(results))[0];
 
-            db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+            //User is undefined because the user with that ID doesn't exist
+            if(!expanded_profile){
+                return res.status(400).send({
+                    errorMessage: "user does not exist"
+                });
+            }
+
+            db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
                 if (err) return res.send(err);
-                const current_work = JSON.parse(JSON.stringify(results));
+                const work_history = JSON.parse(JSON.stringify(results));
 
-                res.json({complete_profile, work_history, current_work});
+                db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+                    if (err) return res.send(err);
+                    const current_work = JSON.parse(JSON.stringify(results));
+
+                    res.json({basic_profile, expanded_profile, work_history, current_work});
+                });
+            });
+        });
+    });
+});
+
+//Sample basic_profile and expanded_profile split
+router.get('/self/amended', requireAuth, (req, res) => {
+    const user_id = req.user.id;
+
+    const query_select_basic_profile = "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number FROM users WHERE id = ?";
+
+    const query_select_expanded_profile = "SELECT profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major FROM profiles WHERE user_id = ?";
+
+    db.query(query_select_basic_profile, user_id, (err, results) => {
+        if (err) return res.send(err);
+        const basic_profile = JSON.parse(JSON.stringify(results))[0];
+
+        //User is undefined because the user with that ID doesn't exist
+        if(!basic_profile){
+            return res.status(400).send({
+                errorMessage: "user does not exist"
+            });
+        }
+
+        db.query(query_select_expanded_profile, user_id, (err, results) => {
+            if (err) return res.send(err);
+            const expanded_profile = JSON.parse(JSON.stringify(results))[0];
+
+            //User is undefined because the user with that ID doesn't exist
+            if(!expanded_profile){
+                return res.status(400).send({
+                    errorMessage: "user does not exist"
+                });
+            }
+
+            db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
+                if (err) return res.send(err);
+                const work_history = JSON.parse(JSON.stringify(results));
+
+                db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+                    if (err) return res.send(err);
+                    const current_work = JSON.parse(JSON.stringify(results));
+
+                    res.json({basic_profile, expanded_profile, work_history, current_work});
+                });
             });
         });
     });
@@ -47,29 +105,42 @@ router.get('/self', requireAuth, (req, res) => {
 router.get('/:user_id', requireAuth, (req, res) => {
     const {user_id} = req.params;
 
-    const query_select_all_profile_info =
-        "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number, profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major FROM users INNER JOIN profiles ON users.id = profiles.user_id WHERE id = ?";
+    const query_select_basic_profile = "SELECT users.id, users.last_name, users.first_name, users.email, users.phone_number FROM users WHERE id = ?";
 
-    db.query(query_select_all_profile_info, user_id, (err, results) => {
+    const query_select_expanded_profile = "SELECT profiles.gender, profiles.birthday, profiles.profile_picture, profiles.high_school, profiles.university_name, profiles.university_major, profiles.graduate_masters_name, profiles.graduate_masters_major, profiles.graduate_phd_name, profiles.graduate_phd_major FROM profiles WHERE user_id = ?";
+
+    db.query(query_select_basic_profile, user_id, (err, results) => {
         if (err) return res.send(err);
-        const complete_profile = JSON.parse(JSON.stringify(results))[0];
+        const basic_profile = JSON.parse(JSON.stringify(results))[0];
 
         //User is undefined because the user with that ID doesn't exist
-        if(!complete_profile){
+        if(!basic_profile){
             return res.status(400).send({
                 errorMessage: "user does not exist"
             });
         }
 
-        db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
+        db.query(query_select_expanded_profile, user_id, (err, results) => {
             if (err) return res.send(err);
-            const work_history = JSON.parse(JSON.stringify(results));
+            const expanded_profile = JSON.parse(JSON.stringify(results))[0];
 
-            db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+            //User is undefined because the user with that ID doesn't exist
+            if(!expanded_profile){
+                return res.status(400).send({
+                    errorMessage: "user does not exist"
+                });
+            }
+
+            db.query("SELECT * FROM works WHERE user_id = ? ORDER BY start_date DESC", user_id, (err, results) => {
                 if (err) return res.send(err);
-                const current_work = JSON.parse(JSON.stringify(results));
+                const work_history = JSON.parse(JSON.stringify(results));
 
-                res.json({complete_profile, work_history, current_work});
+                db.query("SELECT * FROM works WHERE user_id = ? AND status = 'current' ORDER BY start_date DESC", user_id, (err, results) => {
+                    if (err) return res.send(err);
+                    const current_work = JSON.parse(JSON.stringify(results));
+
+                    res.json({basic_profile, expanded_profile, work_history, current_work});
+                });
             });
         });
     });

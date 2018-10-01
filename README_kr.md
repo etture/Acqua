@@ -295,12 +295,14 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     {
-    "complete_profile": {
+    "basic_profile": {
             "id": 116,
             "last_name": "Lee",
             "first_name": "Paul",
             "email": "paul@gmail.com",
-            "phone_number": "01031887610",
+            "phone_number": "01031887610"      
+        },
+    "expanded_profile": {
             "gender": "male",
             "birthday": null,
             "profile_picture": null,
@@ -363,12 +365,14 @@ Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 - Response
     ```js
     {
-    "complete_profile": {
+    "basic_profile": {
             "id": 116,
             "last_name": "Lee",
             "first_name": "Paul",
             "email": "paul@gmail.com",
-            "phone_number": "01031887610",
+            "phone_number": "01031887610"          
+        },
+    "expanded_profile": {
             "gender": "male",
             "birthday": null,
             "profile_picture": null,
