@@ -12,9 +12,9 @@
 
 Heroku에 배포, 현 URL: *https://acqua-api.herokuapp.com*
 
-[React.js 웹 클라이언트](https://github.com/etture/acqua-client)
-
 [안드로이드 클라이언트](https://github.com/etture/acqua-android)
+
+[React.js 웹 클라이언트](https://github.com/etture/acqua-client)
 
 # 목차
 
